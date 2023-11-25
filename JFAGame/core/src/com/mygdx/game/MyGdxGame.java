@@ -19,13 +19,6 @@ public class Player {
 		// e daí n seja adequado colocar aqui
 	}
 
-
-
-
-
-
-
-
 }
 
 
