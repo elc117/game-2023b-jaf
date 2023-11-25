@@ -5,6 +5,33 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
+public class Player {
+	public int Px, Py;
+	public String dialogue;
+	private String name;
+
+	public Player {
+		this.name = "Mário";
+	}
+
+	public void walk {
+		// talvez ao invés de colocar esse método aqui tem o esquema da render
+		// e daí n seja adequado colocar aqui
+	}
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
