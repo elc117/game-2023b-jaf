@@ -26,8 +26,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 // Os elementos presentes na tela são carregados em AssetUtils.java
 public class MainMenuScreen implements Screen {
     // Variáveis estáticas para armazenar a largura e altura da janela
-    public static float windowWidth;
-    public static float windowHeight;
+    //public static float windowWidth;
+    //public static float windowHeight;
+
+    public static float windowWidth = Gdx.graphics.getWidth();
+    public static float windowHeight = Gdx.graphics.getHeight();
 
     // Variáveis privadas para armazenar o batch, background, stage e game
     private SpriteBatch batch;
@@ -38,6 +41,11 @@ public class MainMenuScreen implements Screen {
     private TextureRegionDrawable playButtonVariable;
     private TextureRegionDrawable playButtonHighlightedVariable;
     private ImageButton playButton;
+
+    private TextureRegionDrawable exitButtonVariable;
+    private TextureRegionDrawable exitButtonHighlightedVariable;
+    private ImageButton exitButton;
+
 
     // Construtor da classe
     public MainMenuScreen(Game game) {
@@ -50,21 +58,18 @@ public class MainMenuScreen implements Screen {
         Assets.loadAssets();
         batch = new SpriteBatch();
         background = Assets.menu;
-        windowWidth = Gdx.graphics.getWidth();
-        windowHeight = Gdx.graphics.getHeight();
         stage = new Stage(new ScreenViewport());
 
-        float playButtonX = windowWidth/2 - Assets.playButton.getWidth()/2 - 75;
-        float playButtonY = windowHeight/2 - Assets.playButton.getHeight()/2;
-        float exitButtonX = windowWidth/2 - Assets.exitButton.getWidth()/2;
-        float exitButtonY = windowHeight/2 - Assets.exitButton.getHeight()/2 - 150;
+        float playButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
+        float playButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
+        float exitButtonX = windowWidth / 2 - Assets.exitButton.getWidth() / 2;
+        float exitButtonY = windowHeight / 2 - Assets.exitButton.getHeight() / 2 - 150;
 
         playButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.playButton));
-        final ImageButton playButton = new ImageButton(playButtonVariable);
+        playButton = new ImageButton(playButtonVariable);
 
-        TextureRegionDrawable exitButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.exitButton));
-        final ImageButton exitButton = new ImageButton(exitButtonVariable);
-
+        exitButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.exitButton));
+        exitButton = new ImageButton(exitButtonVariable);
 
         playButton.setPosition(playButtonX, playButtonY);
         exitButton.setPosition(exitButtonX, exitButtonY);
@@ -73,9 +78,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(exitButton);
 
         Gdx.input.setInputProcessor(stage);
-
     }
-
 
     // Método que renderiza os elementos da tela
     @Override
@@ -85,6 +88,15 @@ public class MainMenuScreen implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540)
+            playButtonVariable.setRegion(new TextureRegion(Assets.playButtonHighlighted));
+        else
+            playButtonVariable.setRegion(new TextureRegion(Assets.playButton));
+
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690)
+            exitButtonVariable.setRegion(new TextureRegion(Assets.exitButtonHighlighted));
+        else
+            exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
         batch.end();
 
         stage.act(delta);
