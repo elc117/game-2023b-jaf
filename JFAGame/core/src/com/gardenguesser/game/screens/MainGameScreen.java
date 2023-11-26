@@ -70,7 +70,7 @@ public class MainGameScreen implements Screen {
 
     @Override
     public void dispose() {
-        Assets.background.dispose();
+        //Assets.background.dispose();
         //AssetUtils.avatar.dispose();
         //AssetUtils.enemyDino.dispose();
         batch.dispose();

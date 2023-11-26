@@ -1,13 +1,13 @@
 package com.gardenguesser.game;
 
-import com.badlogic.gdx.game;
-import com.gardenguesser.game.screens.MainGameScreen;
+import com.badlogic.gdx.Game;
+import com.gardenguesser.game.screens.MainMenuScreen;
 
 public class GardenGuesser extends Game {
 	
 	@Override
 	public void create () {
-		setScreen(new MainGameScreen(this));
+		setScreen(new MainMenuScreen(this));
 	}
 
 	/*@Override

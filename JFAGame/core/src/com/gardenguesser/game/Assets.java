@@ -7,10 +7,10 @@ public class Assets {
     public static Texture mainCharacter;
     public static Texture botanicalGardenStreet;
 
-    private Assets {
+    private Assets () {
     }
 
-    private static void loadAssets(){
+    public static void loadAssets(){
         innerArea = new Texture("innerArea.png");
         mainCharacter = new Texture("mainCharacter.png");
         botanicalGardenStreet = new Texture("botanicalGardenStreet.png");
