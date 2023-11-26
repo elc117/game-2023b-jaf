@@ -32,31 +32,48 @@ public class MainMenuScreen implements Screen {
     // Variáveis privadas para armazenar o batch, background, stage e game
     private SpriteBatch batch;
     private Texture background;
-    private Stage stage;
     private Game game;
+    private Stage stage;
+
+    private TextureRegionDrawable playButtonVariable;
+    private TextureRegionDrawable playButtonHighlightedVariable;
+    private ImageButton playButton;
 
     // Construtor da classe
     public MainMenuScreen(Game game) {
         this.game = game;
     }
 
-    // Método que inicia a transição de tela
-    /*private void startScreenTransition() {
-        SelectMapScreen SelectMapScreenInstance = new SelectMapScreen(game);
-        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 1f);
-        fadeScreen = new FadeScreen(game, fadeOut, this, SelectMapScreenInstance);
-        game.setScreen(fadeScreen);
-    }*/
-
     // Método que inicializa os elementos da tela
     @Override
     public void show() {
         Assets.loadAssets();
         batch = new SpriteBatch();
-        background = Assets.botanicalGardenStreet;
-        stage = new Stage(new ScreenViewport());
+        background = Assets.menu;
         windowWidth = Gdx.graphics.getWidth();
         windowHeight = Gdx.graphics.getHeight();
+        stage = new Stage(new ScreenViewport());
+
+        float playButtonX = windowWidth/2 - Assets.playButton.getWidth()/2 - 75;
+        float playButtonY = windowHeight/2 - Assets.playButton.getHeight()/2;
+        float exitButtonX = windowWidth/2 - Assets.exitButton.getWidth()/2;
+        float exitButtonY = windowHeight/2 - Assets.exitButton.getHeight()/2 - 150;
+
+        playButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.playButton));
+        final ImageButton playButton = new ImageButton(playButtonVariable);
+
+        TextureRegionDrawable exitButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.exitButton));
+        final ImageButton exitButton = new ImageButton(exitButtonVariable);
+
+
+        playButton.setPosition(playButtonX, playButtonY);
+        exitButton.setPosition(exitButtonX, exitButtonY);
+
+        stage.addActor(playButton);
+        stage.addActor(exitButton);
+
+        Gdx.input.setInputProcessor(stage);
+
     }
 
 
@@ -72,6 +89,7 @@ public class MainMenuScreen implements Screen {
 
         stage.act(delta);
         stage.draw();
+
     }
 
     // Método que redimensiona a tela
@@ -97,7 +115,7 @@ public class MainMenuScreen implements Screen {
     // Método que descarta os elementos da tela
     @Override
     public void dispose() {
-        Assets.botanicalGardenStreet.dispose();
+        Assets.menu.dispose();
         //AssetUtils.backgroundMenu.dispose();
         batch.dispose();
     }

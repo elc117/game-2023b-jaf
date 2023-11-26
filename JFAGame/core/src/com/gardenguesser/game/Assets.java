@@ -7,6 +7,12 @@ public class Assets {
     public static Texture mainCharacter;
     public static Texture botanicalGardenStreet;
 
+    public static Texture menu;
+    public static Texture playButton;
+    public static Texture exitButton;
+    public static Texture playButtonHighlighted;
+    public static Texture exitButtonHighlighted;
+
     private Assets () {
     }
 
@@ -14,6 +20,12 @@ public class Assets {
         innerArea = new Texture("innerArea.png");
         mainCharacter = new Texture("mainCharacter.png");
         botanicalGardenStreet = new Texture("botanicalGardenStreet.png");
+        menu = new Texture("menu.png");
+        playButton = new Texture("play_button.png");
+        exitButton = new Texture("exit_button.png");
+        playButtonHighlighted = new Texture("play_button_highlighted.png");
+        exitButtonHighlighted = new Texture("exit_button_highlighted.png");
+
     }
 
 }
