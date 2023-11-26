@@ -97,8 +97,8 @@ public class MainMenuScreen implements Screen {
     // Método que descarta os elementos da tela
     @Override
     public void dispose() {
-        //Assets.menu.dispose();
-        // AssetUtils.backgroundMenu.dispose();
+        Assets.botanicalGardenStreet.dispose();
+        //AssetUtils.backgroundMenu.dispose();
         batch.dispose();
     }
 }
