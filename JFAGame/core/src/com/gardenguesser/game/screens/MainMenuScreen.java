@@ -87,16 +87,28 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // Limpa o buffer de cores
 
         batch.begin();
+
         batch.draw(background, 0, 0);
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540)
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540) {
             playButtonVariable.setRegion(new TextureRegion(Assets.playButtonHighlighted));
+            if (Gdx.input.isTouched())
+            {
+                this.dispose();
+                game.setScreen(new WalkIntoGame(game));
+            }
+        }
         else
             playButtonVariable.setRegion(new TextureRegion(Assets.playButton));
 
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690)
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690) {
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButtonHighlighted));
+            if (Gdx.input.isTouched()) {
+                Gdx.app.exit();
+            }
+        }
         else
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
+
         batch.end();
 
         stage.act(delta);
@@ -128,7 +140,10 @@ public class MainMenuScreen implements Screen {
     @Override
     public void dispose() {
         Assets.menu.dispose();
-        //AssetUtils.backgroundMenu.dispose();
+        Assets.playButton.dispose();
+        Assets.playButtonHighlighted.dispose();
+        Assets.exitButton.dispose();
+        Assets.exitButtonHighlighted.dispose();
         batch.dispose();
     }
 }
