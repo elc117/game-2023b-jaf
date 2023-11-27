@@ -38,6 +38,8 @@ public class MainGameScreen implements Screen {
         background = new Texture("innerArea.png");
         windowWidth = Gdx.graphics.getWidth();
         windowHeight = Gdx.graphics.getHeight();
+
+
     }
 
     @Override
@@ -70,9 +72,6 @@ public class MainGameScreen implements Screen {
 
     @Override
     public void dispose() {
-        //Assets.background.dispose();
-        //AssetUtils.avatar.dispose();
-        //AssetUtils.enemyDino.dispose();
         batch.dispose();
     }
 
