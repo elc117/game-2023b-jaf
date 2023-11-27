@@ -1,8 +1,8 @@
 package com.gardenguesser.game.screens;
 
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +18,9 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gardenguesser.game.Assets;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+
 public class WalkIntoGame implements Screen {
 
     public static float windowWidth;
@@ -26,6 +29,7 @@ public class WalkIntoGame implements Screen {
     private Texture background;
     private SpriteBatch batch;
     private Game game;
+    private Stage stage;
 
 
     // VAI TER O FADE AO ENTRAR NO JARDIM BOTANICO
@@ -36,13 +40,18 @@ public class WalkIntoGame implements Screen {
         this.game = game;
     }
 
+
     @Override
     public void show() {
         Assets.loadAssets();
         batch = new SpriteBatch();
-        background = new Texture("botanicalGardenStreet.png");
+        background = Assets.botanicalGardenStreet;
         windowWidth = Gdx.graphics.getWidth();
         windowHeight = Gdx.graphics.getHeight();
+
+        stage = new Stage(new ScreenViewport());
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

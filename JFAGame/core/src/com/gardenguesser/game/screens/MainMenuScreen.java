@@ -19,6 +19,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.gardenguesser.game.Assets;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 // Classe que cria a tela de menu principal
 // Com um botão de play e O titulo do jogo no centro da tela
@@ -46,6 +48,9 @@ public class MainMenuScreen implements Screen {
     private TextureRegionDrawable exitButtonHighlightedVariable;
     private ImageButton exitButton;
 
+    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("menu_song.mp3"));
+    private long id = sound.play();
+
 
     // Construtor da classe
     public MainMenuScreen(Game game) {
@@ -59,6 +64,8 @@ public class MainMenuScreen implements Screen {
         batch = new SpriteBatch();
         background = Assets.menu;
         stage = new Stage(new ScreenViewport());
+
+        sound.setVolume(id, 1.0f);
 
         float playButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
         float playButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
@@ -94,6 +101,18 @@ public class MainMenuScreen implements Screen {
             if (Gdx.input.isTouched())
             {
                 this.dispose();
+                sound.pause();
+
+                // AO INVES DE CHAMAR O WALKINTOGAME COLOCAR PRA CHAMAR UMA CLASSE FADEOUT
+                // AI A CLASSE FADEOUT REALIZA O FADEOUT E DEPOIS DE FAZER ELA CHAMA O WALKINTOGAME
+                // NA VDD ELA VAI CHAMAR A CUT SCENE MAS AI É COM VCS
+                // DPS DA CUT SCENE CHAMA O FADEOUT DNV E ELE CHAMA A SEGUNDA CUT SCENE
+                // E DEPOIS CHAMA DNV O FADEOUT
+                // E DAI O FADOUT CHAMA O INNERAREA
+                // AI TEM O DIALOGO COM O PROFESSOR
+                // AI SE O JOGADOR ACEITAR JOGAR TEM O FADEOUT DNV
+                // E DAI OU CHAMA UMA CLASSE NOVA QUE VAI SER DO JOGO OU MANTEM NA INNER AREA MESMO QUE  É ONDE JOGA
+
                 game.setScreen(new WalkIntoGame(game));
             }
         }

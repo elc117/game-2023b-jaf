@@ -13,6 +13,8 @@ public class Assets {
     public static Texture playButtonHighlighted;
     public static Texture exitButtonHighlighted;
 
+    public static Texture blackFadeOut;
+
     private Assets () {
     }
 
@@ -25,7 +27,7 @@ public class Assets {
         exitButton = new Texture("exit_button.png");
         playButtonHighlighted = new Texture("play_button_highlighted.png");
         exitButtonHighlighted = new Texture("exit_button_highlighted.png");
-
+        blackFadeOut = new Texture("dark_screen.png");
     }
 
 }
