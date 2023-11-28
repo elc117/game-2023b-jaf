@@ -7,6 +7,8 @@ public class Assets {
     public static Texture mainCharacter;
     public static Texture botanicalGardenStreet;
 
+    public static Texture mainCharacterFront;
+
     public static Texture menu;
     public static Texture playButton;
     public static Texture exitButton;
@@ -42,13 +44,13 @@ public class Assets {
     public static Texture verduraCouveFlor;
     public static Texture verduraRepolhoRoxo;
 
-
     private Assets () {
     }
 
     public static void loadAssets(){
         innerArea = new Texture("innerArea.png");
         mainCharacter = new Texture("mainCharacter.png");
+        mainCharacterFront = new Texture("vicent_de_frente.png");
         botanicalGardenStreet = new Texture("botanicalGardenStreet.png");
         menu = new Texture("menu.png");
         playButton = new Texture("play_button.png");
