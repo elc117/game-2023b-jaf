@@ -35,6 +35,7 @@ public class WalkIntoGame implements Screen {
     private Stage stage;
     private TextureAtlas atlas;
     private Vicente vicente;
+    private boolean podeTrocar;
 
     // VAI TER O FADE AO ENTRAR NO JARDIM BOTANICO
 
@@ -55,7 +56,7 @@ public class WalkIntoGame implements Screen {
         windowHeight = Gdx.graphics.getHeight();
         vicente = new Vicente(this);
         stage = new Stage(new ScreenViewport());
-
+        podeTrocar = false;
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -70,6 +71,8 @@ public class WalkIntoGame implements Screen {
         vicente.setRegion(currentFrame);
         vicente.draw(batch);
         batch.end();
+        if(podeTrocar)
+            transicaoTela();
         //sound.pause();
         //game.setScreen(new MainGameScreen(game));
     }
@@ -79,17 +82,21 @@ public class WalkIntoGame implements Screen {
             return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
         }
         else if (vicente.getPosY() >= 710.0f){
+            podeTrocar = true;
             return vicente.getVicenteCostas();
         }
         else if(vicente.getPosX() >= 1110.0f) {
             vicente.andarParaCima();
             return vicente.andarCima.getKeyFrame(vicente.getStateTime(), true);
         }
-
-
-
         else
             return vicente.getVicenteFrente();
+    }
+    private void transicaoTela() {
+        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        FadeScreen.FadeInfo fadeIn = new FadeScreen.FadeInfo(FadeScreen.FadeType.IN, Color.WHITE, Interpolation.smoother, 2.0f);
+        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new FadeScreen(game, fadeIn, new MainGameScreen(game), null));
+        game.setScreen(fadeScreen);
     }
 
 
