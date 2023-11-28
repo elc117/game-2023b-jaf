@@ -61,7 +61,7 @@ public class WalkIntoGame implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
-        this.dispose();
+        //this.dispose();
         //sound.pause();
         game.setScreen(new MainGameScreen(game));
         batch.end();

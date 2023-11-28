@@ -43,7 +43,7 @@ public class Product {
 
     protected void gerarImagem(){
         Random random = new Random();
-        int num = random.nextInt(7) + 1;
+        int num = random.nextInt(26) + 1;
 
 
         switch (num) {
@@ -89,6 +89,113 @@ public class Product {
                 answer = 'F';
                 break;
 
+            case 8:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.frutaPimenta));
+                nomeProduto = "Pimenta";
+                answer = 'F';
+                break;
+
+            case 9:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.frutaTomate));
+                nomeProduto = "Tomate";
+                answer = 'F';
+                break;
+
+            case 10:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeAbobora));
+                nomeProduto = "Abóbora";
+                answer = 'L';
+                break;
+
+            case 11:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeAcelga));
+                nomeProduto = "Acelga";
+                answer = 'L';
+                break;
+
+            case 12:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeAlho));
+                nomeProduto = "Alho";
+                answer = 'L';
+                break;
+
+            case 13:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeBatata));
+                nomeProduto = "Batata";
+                answer = 'L';
+                break;
+
+            case 14:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeBeterraba));
+                nomeProduto = "Beterraba";
+                answer = 'L';
+                break;
+
+            case 15:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeCenoura));
+                nomeProduto = "Cenoura";
+                answer = 'L';
+                break;
+
+            case 16:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeInhame));
+                nomeProduto = "Inhame";
+                answer = 'L';
+                break;
+
+            case 17:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.legumeMilho));
+                nomeProduto = "Milho";
+                answer = 'L';
+                break;
+
+            case 18:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaCogumeloVermelho));
+                nomeProduto = "Cogumelo Vermelho";
+                answer = 'P';
+                break;
+
+            case 19:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaDenteDeLeao));
+                nomeProduto = "Dente-de-Leão";
+                answer = 'P';
+                break;
+
+            case 20:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaGirassol));
+                nomeProduto = "Girassol";
+                answer = 'P';
+                break;
+
+            case 21:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaNarciso));
+                nomeProduto = "Narciso";
+                answer = 'P';
+                break;
+
+            case 22:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaTulipa));
+                nomeProduto = "Tulipa";
+                answer = 'P';
+                break;
+
+            case 23:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.verduraAlhoPoro));
+                nomeProduto = "Alho Poró";
+                answer = 'V';
+                break;
+
+            case 25:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.verduraBrocolis));
+                nomeProduto = "Brócolos";
+                answer = 'V';
+                break;
+
+            case 26:
+                imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.verduraCouveFlor));
+                nomeProduto = "Couve-Flor";
+                answer = 'V';
+                break;
         }
 
         image = new ImageButton(imageVariable);

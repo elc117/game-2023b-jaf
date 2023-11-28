@@ -40,7 +40,7 @@ public class MainGameScreen extends Product implements Screen {
     private BitmapFont font;
 
     private float deltaTime = 0;
-    private float timer = 5;
+    private float timer = 10;
     private int acertos = 0;
     private int erros = 0;
 
@@ -48,6 +48,9 @@ public class MainGameScreen extends Product implements Screen {
     private ImageButton character;
 
     private boolean areaClicked = false;
+
+    private float elapsedTime = 0f;
+    private float interval = 1f; // intervalo desejado em segundos
 
     public MainGameScreen(Game game){
         super();
@@ -89,6 +92,9 @@ public class MainGameScreen extends Product implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         deltaTime += delta;
+        elapsedTime += delta;
+
+
         if (deltaTime >= 1) {
             timer -= 1;
             deltaTime = 0;
@@ -96,10 +102,9 @@ public class MainGameScreen extends Product implements Screen {
             // Verifica se o tempo atingiu 15 segundos
             if (timer <= 0) {
                 timer = 5; // Reinicia o temporizador para 15 segundos
-                product.image.setPosition(-2000, -2000);
+                product.image.setPosition(-windowWidth * 3, -windowHeight * 3);
                 super.gerarImagem();
                 product = new Product();
-                areaClicked = false;
                 // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
         }
@@ -107,17 +112,56 @@ public class MainGameScreen extends Product implements Screen {
         batch.begin();
         batch.draw(background, 0, 0);
 
-        if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && areaClicked == false)
+        if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            areaClicked = true;
             if(product.answer == 'F')
                 acertos++;
             else
                 erros++;
-            timer = 5; // Reinicia o temporizador para 15 segundos
-            product.image.setPosition(-2000, -2000);
+            timer = 10;
+            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
+            elapsedTime = 0f;
+        }
+
+        if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
+        {
+            if(product.answer == 'P')
+                acertos++;
+            else
+                erros++;
+            timer = 10;
+            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            super.gerarImagem();
+            product = new Product();
+            elapsedTime = 0f;
+        }
+
+        if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
+        {
+            if(product.answer == 'V')
+                acertos++;
+            else
+                erros++;
+            timer = 10;
+            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            super.gerarImagem();
+            product = new Product();
+            elapsedTime = 0f;
+        }
+
+        if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
+        {
+            if(product.answer == 'L')
+                acertos++;
+            else
+                erros++;
+            timer = 10;
+            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            super.gerarImagem();
+            product = new Product();
+            elapsedTime = 0f;
         }
 
 
