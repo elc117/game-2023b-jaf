@@ -3,7 +3,7 @@ Vicente_Movimentos.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-mario
+vicente
   rotate: false
   xy: 1, 1
   size: 1020, 708
