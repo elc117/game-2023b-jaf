@@ -61,6 +61,9 @@ public class WalkIntoGame implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
+        this.dispose();
+        //sound.pause();
+        game.setScreen(new MainGameScreen(game));
         batch.end();
     }
 
@@ -85,8 +88,6 @@ public class WalkIntoGame implements Screen {
     @Override
     public void dispose() {
         Assets.botanicalGardenStreet.dispose();
-        //AssetUtils.avatar.dispose();
-        //AssetUtils.enemyDino.dispose();
         batch.dispose();
     }
 

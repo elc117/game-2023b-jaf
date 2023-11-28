@@ -65,7 +65,7 @@ public class MainMenuScreen implements Screen {
         background = Assets.menu;
         stage = new Stage(new ScreenViewport());
 
-        sound.setVolume(id, 1.0f);
+        sound.setVolume(id, 1/10.0f);
 
         float playButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
         float playButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
