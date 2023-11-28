@@ -50,6 +50,7 @@ public class MainMenuScreen implements Screen {
 
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("menu_song.mp3"));
     private long id = sound.play();
+    private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
 
     // Construtor da classe
@@ -100,6 +101,7 @@ public class MainMenuScreen implements Screen {
             playButtonVariable.setRegion(new TextureRegion(Assets.playButtonHighlighted));
             if (Gdx.input.isTouched())
             {
+                soundButton.play();
                 this.dispose();
                 sound.pause();
 
@@ -113,7 +115,7 @@ public class MainMenuScreen implements Screen {
                 // AI SE O JOGADOR ACEITAR JOGAR TEM O FADEOUT DNV
                 // E DAI OU CHAMA UMA CLASSE NOVA QUE VAI SER DO JOGO OU MANTEM NA INNER AREA MESMO QUE  É ONDE JOGA
 
-                game.setScreen(new WalkIntoGame(game));
+                game.setScreen(new ContextScreen(game));
             }
         }
         else

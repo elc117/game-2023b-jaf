@@ -36,9 +36,7 @@ public class WalkIntoGame implements Screen {
     private TextureAtlas atlas;
     private Vicente vicente;
 
-    // VAI TER O FADE AO ENTRAR NO JARDIM BOTANICO
-
-
+    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
 
     public WalkIntoGame(Game game){
         this.game = game;
@@ -56,6 +54,8 @@ public class WalkIntoGame implements Screen {
         vicente = new Vicente(this);
         stage = new Stage(new ScreenViewport());
 
+        sound.loop(1.0f, 0.8f, 0.0f);
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -63,12 +63,16 @@ public class WalkIntoGame implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         vicente.setStateTime(delta);
+
         batch.begin();
+
         batch.draw(background, 0, 0);
         TextureRegion currentFrame = new TextureRegion(animacaoVicente());
         vicente.setRegion(currentFrame);
         vicente.draw(batch);
+
         batch.end();
         //sound.pause();
         //game.setScreen(new MainGameScreen(game));
@@ -78,16 +82,16 @@ public class WalkIntoGame implements Screen {
             vicente.andarParaDireita();
             return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
         }
-        else if (vicente.getPosY() >= 710.0f){
+        else if (vicente.getPosY() >= 710.0f)
+        {
+            sound.pause();
+            game.setScreen(new MainGameScreen(game));
             return vicente.getVicenteCostas();
         }
         else if(vicente.getPosX() >= 1110.0f) {
             vicente.andarParaCima();
             return vicente.andarCima.getKeyFrame(vicente.getStateTime(), true);
         }
-
-
-
         else
             return vicente.getVicenteFrente();
     }
