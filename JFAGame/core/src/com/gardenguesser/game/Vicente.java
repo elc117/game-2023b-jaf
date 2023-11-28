@@ -31,7 +31,7 @@ public class Vicente extends Sprite {
     }
         //
     public void andarParaDireita() {
-        setPosition(posX+=1.0f, posY);
+        setPosition(posX+=10.0f, posY);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 0; i<4; i++) {
             if(i ==0)
@@ -40,6 +40,17 @@ public class Vicente extends Sprite {
                 frames.add(new TextureRegion(getTexture(),(120+8)*i,262,120,184));
         }
             andarDireita = new Animation<>(0.4f,frames,Animation.PlayMode.LOOP);
+    }
+    public void andarParaEsquerda() {
+        setPosition(posX-=1.0f, posY);
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        for(int i = 0; i<4; i++) {
+            if(i ==0)
+                frames.add(new TextureRegion(getTexture(),511,6, 120, 184));
+            else
+                frames.add(new TextureRegion(getTexture(),511+((120+8)*i),6,120,184));
+        }
+        andarEsquerda = new Animation<>(0.4f,frames,Animation.PlayMode.LOOP);
     }
     public void andarParaCima() {
         setPosition(posX, posY+=1.0f);
@@ -50,7 +61,18 @@ public class Vicente extends Sprite {
             else
                 frames.add(new TextureRegion(getTexture(),511+((120+8)*i),262,120,184));
         }
-        andarCima = new Animation<>(0.1f,frames,Animation.PlayMode.LOOP);
+        andarCima = new Animation<>(0.4f,frames,Animation.PlayMode.LOOP);
+    }
+    public void andarParaBaixo() {
+        setPosition(posX, posY-=1.0f);
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        for(int i = 0; i<4; i++) {
+            if(i ==0)
+                frames.add(new TextureRegion(getTexture(),7,16, 112, 176));
+            else
+                frames.add(new TextureRegion(getTexture(),7+((120+8)*i),16,112,176));
+        }
+        andarBaixo = new Animation<>(0.4f,frames,Animation.PlayMode.LOOP);
     }
     public void setStateTime(float delta) {
         this.stateTime = this.stateTime + delta;

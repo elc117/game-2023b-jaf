@@ -6,6 +6,7 @@ public class Assets {
     public static Texture innerArea;
     public static Texture mainCharacter;
     public static Texture botanicalGardenStreet;
+    public static Texture darkScreen;
 
     public static Texture mainCharacterFront;
 
@@ -53,6 +54,7 @@ public class Assets {
         mainCharacterFront = new Texture("vicent_de_frente.png");
         botanicalGardenStreet = new Texture("botanicalGardenStreet.png");
         menu = new Texture("menu.png");
+        darkScreen = new Texture("dark_screen.png");
         playButton = new Texture("play_button.png");
         exitButton = new Texture("exit_button.png");
         playButtonHighlighted = new Texture("play_button_highlighted.png");
