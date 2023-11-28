@@ -24,7 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import java.util.Random;
 public class Product {
 
-    protected String nomeAlimento;
+    protected String nomeProduto;
 
     protected TextureRegionDrawable imageVariable;
     protected ImageButton image;
@@ -35,29 +35,25 @@ public class Product {
     public static float windowWidth = Gdx.graphics.getWidth();
     public static float windowHeight = Gdx.graphics.getHeight();
 
-    private float proporcao = 2.0f; // Fator de escala (por exemplo, 2.0f para dobrar o tamanho)
-    private float novaLargura;
-    private float novaAltura;
-
     public Product() {
         gerarImagem();
     }
 
-    public void gerarImagem(){
+    protected void gerarImagem(){
         Random random = new Random();
         //int num = random.nextInt(26) + 1;
 
-        int num = 1;
+        int num = 2;
 
         switch (num) {
             case 1:
                 imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.frutaAbacaxi));
-                nomeAlimento = "Abacaxi";
+                nomeProduto = "Abacaxi";
                 break;
 
             case 2:
                 imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.frutaAmeixa));
-                nomeAlimento = "Ameixa";
+                nomeProduto = "Ameixa";
                 break;
 
             case 3:
@@ -84,15 +80,11 @@ public class Product {
 
         image = new ImageButton(imageVariable);
 
-        //imageX = windowWidth - image.getWidth();
-        //imageY = windowHeight + image.getHeight();
+        imageX = windowWidth/2 + 700;
+        imageY = windowHeight/2 ;
 
-        imageX = windowWidth/2 + 100;
-        imageY = windowHeight/2 + 100;
-
-        //image.setSize(image.getWidth() * proporcao, image.getHeight() * proporcao);
+        //image.setSize(200, 200);
 
     }
-
 
 }

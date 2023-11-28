@@ -1,5 +1,6 @@
 package com.gardenguesser.game.screens;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 public class MainGameScreen extends Product implements Screen {
 
     public static float windowWidth = Gdx.graphics.getWidth();
@@ -35,6 +37,10 @@ public class MainGameScreen extends Product implements Screen {
 
     private Product product;
 
+    private BitmapFont font;
+
+    private float deltaTime = 0;
+    private float timer = 15;
 
     public MainGameScreen(Game game){
         super();
@@ -48,10 +54,13 @@ public class MainGameScreen extends Product implements Screen {
         batch = new SpriteBatch();
         background = Assets.innerArea;
         stage = new Stage(new ScreenViewport());
+        font = new BitmapFont();
+
+        font.setColor(Color.WHITE);
+        font.getData().setScale(3.0f);
 
         sound.setVolume(id, 1/10.0f);
 
-        product.image.setSize(128, 128);
 
         product.image.setPosition(product.imageX, product.imageY);
 
@@ -65,8 +74,22 @@ public class MainGameScreen extends Product implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        deltaTime += delta;
+        if (deltaTime >= 1) {
+            timer -= 1;
+            deltaTime = 0;
+
+            // Verifica se o tempo atingiu 15 segundos
+            if (timer <= 0) {
+                timer = 15; // Reinicia o temporizador para 15 segundos
+                // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
+            }
+        }
+
         batch.begin();
         batch.draw(background, 0, 0);
+        font.draw(batch, product.nomeProduto, product.imageX - 50, product.imageY - 150);
+        font.draw(batch, "Tempo: " + (int) timer + "s", product.imageX - 50, product.imageY + 350);
         batch.end();
 
         stage.act(delta);
@@ -94,6 +117,7 @@ public class MainGameScreen extends Product implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        font.dispose();
     }
 
 }
