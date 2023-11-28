@@ -75,7 +75,7 @@ public class MainGameScreen extends Product implements Screen {
         font.setColor(Color.WHITE);
         font.getData().setScale(3.0f);
 
-        sound.setVolume(id, 0.0f);
+        sound.setVolume(id, 1/10.0f);
 
         //product.image.setPosition(product.imageX, product.imageY);
         character.setPosition(characterX, characterY);
@@ -101,10 +101,12 @@ public class MainGameScreen extends Product implements Screen {
 
             // Verifica se o tempo atingiu 15 segundos
             if (timer <= 0) {
-                timer = 5; // Reinicia o temporizador para 15 segundos
+                timer = 10; // Reinicia o temporizador para 15 segundos
                 product.image.setPosition(-windowWidth * 3, -windowHeight * 3);
                 super.gerarImagem();
                 product = new Product();
+                erros++;
+                elapsedTime = 0;
                 // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
         }
