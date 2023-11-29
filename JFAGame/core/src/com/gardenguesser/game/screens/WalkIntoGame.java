@@ -56,6 +56,9 @@ public class WalkIntoGame implements Screen {
 
     private long soundId;
 
+    private float deltaTime = 0;
+    private float timer = 5;
+
     public WalkIntoGame(Game game){
         this.game = game;
     }
@@ -97,11 +100,20 @@ public class WalkIntoGame implements Screen {
 
         vicente.setStateTime(delta);
 
-        if(podeAndar == false && Gdx.input.isTouched()) {
+        deltaTime += delta;
+
+        if (deltaTime >= 1) {
+            timer -= 1;
+            deltaTime = 0;
+        }
+
+
+        if(podeAndar == false && Gdx.input.isTouched() && timer <= 0) {
             podeAndar = true;
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(marioDialogue);
             soundId = soundWalking.loop(1.0f, 0.8f, 0.0f);
+            timer = 16;
         }
 
         if(vicente.getPosX() >= 1110.0f && secondDialogue == false)
@@ -117,7 +129,7 @@ public class WalkIntoGame implements Screen {
             stage.addActor(animatedText);
         }
 
-        if(secondDialogue == true && Gdx.input.isTouched())
+        if(secondDialogue == true && Gdx.input.isTouched() && timer <= 0)
         {
             podeAndar = true;
             stage.getRoot().removeActor(animatedText);
@@ -140,10 +152,6 @@ public class WalkIntoGame implements Screen {
 
         stage.act(delta);
         stage.draw();
-
-
-        //sound.pause();
-        //game.setScreen(new MainGameScreen(game));
     }
     private TextureRegion animacaoVicente() {
         if (vicente.getPosX() <1110.0f && podeAndar == true){
@@ -153,6 +161,7 @@ public class WalkIntoGame implements Screen {
         else if (vicente.getPosY() >= 710.0f && podeAndar == true){
             //podeTrocar = true;
             soundWalking.pause();
+            this.dispose();
             game.setScreen(new MainGameScreen(game));
             return vicente.getVicenteCostas();
         }
@@ -197,23 +206,26 @@ public class WalkIntoGame implements Screen {
 
         @Override
         public void draw(Batch batch, float parentAlpha) {
-            elapsedTime += Gdx.graphics.getDeltaTime();
-            font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
 
-            int numCharsToDraw = (int) (elapsedTime / speed);
+            if (font != null) {
+                elapsedTime += Gdx.graphics.getDeltaTime();
+                font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
 
-            numCharsToDraw = Math.min(numCharsToDraw, text.length());
+                int numCharsToDraw = (int) (elapsedTime / speed);
 
-            // Interpolação para obter a cor gradiente
-            Color color = new Color(
-                    Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
-                    Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
-                    Interpolation.linear.apply(startColor.b, endColor.b, elapsedTime * speed),
-                    Interpolation.linear.apply(startColor.a, endColor.a, elapsedTime * speed)
-            );
+                numCharsToDraw = Math.min(numCharsToDraw, text.length());
 
-            font.setColor(color);
-            font.draw(batch, text.subSequence(0, numCharsToDraw), getX(), getY());
+                // Interpolação para obter a cor gradiente
+                Color color = new Color(
+                        Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
+                        Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
+                        Interpolation.linear.apply(startColor.b, endColor.b, elapsedTime * speed),
+                        Interpolation.linear.apply(startColor.a, endColor.a, elapsedTime * speed)
+                );
+
+                font.setColor(color);
+                font.draw(batch, text.subSequence(0, numCharsToDraw), getX(), getY());
+            }
         }
     }
 
@@ -238,6 +250,11 @@ public class WalkIntoGame implements Screen {
     public void dispose() {
         Assets.botanicalGardenStreet.dispose();
         batch.dispose();
+        stage.dispose();
+
+        Assets.marioDialogue.dispose();
+        soundWalking.dispose();
+        background.dispose();
     }
     public String getName() {
         return "WalkIntoGame";

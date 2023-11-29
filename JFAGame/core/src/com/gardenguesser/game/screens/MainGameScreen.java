@@ -40,17 +40,17 @@ public class MainGameScreen extends Product implements Screen {
 
     private BitmapFont font;
 
-    private float deltaTime = 0;
-    private float timer = 10;
-    private int acertos = 0;
-    private int erros = 0;
+    private float deltaTime;
+    private float timer;
+    private int acertos;
+    private int erros;
 
     private TextureRegionDrawable characterVariable;
     private ImageButton character;
 
     private boolean areaClicked = false;
 
-    private float elapsedTime = 0f;
+    private float elapsedTime;
     private float interval = 1f; // intervalo desejado em segundos
 
     public MainGameScreen(Game game){
@@ -66,6 +66,12 @@ public class MainGameScreen extends Product implements Screen {
         background = Assets.innerArea;
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
+
+        erros = 0;
+        acertos = 0;
+        deltaTime = 0;
+        timer = 10;
+        elapsedTime = 0f;
 
         sound.loop(0.02f, 1.0f, 0.0f);
 
@@ -95,6 +101,16 @@ public class MainGameScreen extends Product implements Screen {
         deltaTime += delta;
         elapsedTime += delta;
 
+        if(erros > 5) {
+            sound.pause();
+            game.setScreen(new GameOver(game));
+        }
+
+        if(acertos > 20) {
+            sound.pause();
+            game.setScreen(new GameWon (game));
+        }
+
 
         if (deltaTime >= 1) {
             timer -= 1;
@@ -113,6 +129,7 @@ public class MainGameScreen extends Product implements Screen {
                 // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
         }
+
 
         batch.begin();
         batch.draw(background, 0, 0);
@@ -137,7 +154,7 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'F') {
+            if(product.answer == 'P') {
                 acertos++;
                 rightAnswer.play();
             }
@@ -155,7 +172,7 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'F') {
+            if(product.answer == 'V') {
                 acertos++;
                 rightAnswer.play();
             }
@@ -173,7 +190,7 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'F') {
+            if(product.answer == 'L') {
                 acertos++;
                 rightAnswer.play();
             }

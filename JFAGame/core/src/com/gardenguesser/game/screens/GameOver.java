@@ -6,7 +6,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,65 +22,71 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.gardenguesser.game.Vicente;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
-public class ContextScreen implements Screen {
+public class GameOver implements Screen {
 
     public static float windowWidth = Gdx.graphics.getWidth();
     public static float windowHeight = Gdx.graphics.getHeight();
 
-    private SpriteBatch batch;
     private Texture background;
+    private SpriteBatch batch;
     private Game game;
     private Stage stage;
 
-    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("context_game_song.mp3"));
-    private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
-    private float deltaTime = 0;
-    private float timer = 26;
-
+    private String text = "Infelizmente você acabou não passando no teste,\ne não conseguirá a vaga como bolsista dessa vez :(";
     private AnimatedText animatedText;
 
-    private String texto = "O Jardim Botânico lançou um edital no site da UFSM, \n\nconvocando candidatos para a " +
-            "posição de bolsista encarregado de documentar e categorizar essas novas espécies. \n\nNeste cenário, " +
-            "você foi escolhido antecipadamente para ocupar essa posição crucial. \n\nEm breve, você será conduzido " +
-            "ao Jardim Botânico, \n\nonde suas habilidades e conhecimentos serão testados de maneira prática e " +
-            "decisiva, \n\ndesempenhando um papel fundamental na ampliação do entendimento científico sobre a " +
-            "biodiversidade botânica.\n\n\n\n\n" +
-            "Boa sorte !!!";
+    private TextureRegionDrawable playAgainButtonVariable;
+    private TextureRegionDrawable playAgainHighlightedVariable;
+    private ImageButton playAgainButton;
 
-    private float continueX = 650;
-    private float continueY = -450;
+    private TextureRegionDrawable exitButtonVariable;
+    private TextureRegionDrawable exitButtonHighlightedVariable;
+    private ImageButton exitButton;
 
-    private TextureRegionDrawable continueButtonVariable;
-    private TextureRegionDrawable continueButtonHighlightedVariable;
-    private ImageButton continueButton;
+    //private Sound sound = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+    private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
-    public ContextScreen(Game game) {
+    public GameOver(Game game){
         this.game = game;
     }
+
 
     @Override
     public void show() {
         Assets.loadAssets();
+
         batch = new SpriteBatch();
-        background = Assets.darkScreen;
+
+        background = Assets.gameOver;
+
         stage = new Stage(new ScreenViewport());
 
-        sound.loop(0.2f, 1.0f, 0.0f);
+        animatedText = new AnimatedText(text, 300, Gdx.graphics.getHeight()/2);
+        animatedText.setGradientColors(Color.WHITE, Color.WHITE); // Defina as cores do gradiente
+        animatedText.setSpeed(0.05f); // Defina a velocidade da animação
 
-        continueButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.continueButton));
-        continueButton = new ImageButton(continueButtonVariable);
+        float playAgainButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
+        float playAgainButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
+        float exitButtonX = windowWidth / 2 - Assets.exitButton.getWidth() / 2;
+        float exitButtonY = windowHeight / 2 - Assets.exitButton.getHeight() / 2 - 150;
 
-        continueButton.setPosition(continueX, continueY);
+        playAgainButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.playAgainButton));
+        playAgainButton = new ImageButton(playAgainButtonVariable);
 
-        animatedText = new AnimatedText(texto, 100, Gdx.graphics.getHeight() - 100);
-        animatedText.setGradientColors(Color.WHITE, Color.WHITE);
-        animatedText.setSpeed(0.05f);
+        exitButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.exitButton));
+        exitButton = new ImageButton(exitButtonVariable);
+
+        playAgainButton.setPosition(playAgainButtonX, playAgainButtonY);
+        exitButton.setPosition(exitButtonX, exitButtonY);
 
         stage.addActor(animatedText);
+        stage.addActor(playAgainButton);
+        stage.addActor(exitButton);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -88,40 +96,41 @@ public class ContextScreen implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        deltaTime += delta;
-
-        if (deltaTime >= 1) {
-            timer -= 1;
-            deltaTime = 0;
-        }
-
-
-        if (timer <= 0) {
-            if(Gdx.input.getX() >= 1560 && Gdx.input.getX() <= 1790 && Gdx.input.getY() >= 880 && Gdx.input.getY() <= 980) {
-                continueButtonVariable.setRegion(new TextureRegion(Assets.continueButtonHighlighted));
-                if (Gdx.input.isTouched())
-                {
-                    soundButton.play();
-                    this.dispose();
-                    sound.pause();
-                    game.setScreen(new WalkIntoGame(game));
-                }
-            }
-            else
-                continueButtonVariable.setRegion(new TextureRegion(Assets.continueButton));
-
-            stage.addActor(continueButton);
-        }
 
         batch.begin();
+        batch.draw(background, -600, 0);
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540) {
+            playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButtonHighlighted));
+            if (Gdx.input.isTouched())
+            {
+                soundButton.play();
+                this.dispose();
+                //sound.pause();
 
-        batch.draw(background, 0, 0);
+                game.setScreen(new MainGameScreen(game));
+            }
+        }
+        else
+            playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButton));
+
+        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690) {
+            exitButtonVariable.setRegion(new TextureRegion(Assets.exitButtonHighlighted));
+            if (Gdx.input.isTouched()) {
+                Gdx.app.exit();
+            }
+        }
+        else
+            exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
 
         batch.end();
+
 
         stage.act(delta);
         stage.draw();
 
+
+        //sound.pause();
+        //game.setScreen(new MainGameScreen(game));
     }
 
     private static class AnimatedText extends Actor {
@@ -130,6 +139,7 @@ public class ContextScreen implements Screen {
         private float elapsedTime = 0;
         private float speed = 0.1f;
 
+        // Gradiente
         private Color startColor;
         private Color endColor;
 
@@ -152,12 +162,13 @@ public class ContextScreen implements Screen {
         public void draw(Batch batch, float parentAlpha) {
             if (font != null) {
                 elapsedTime += Gdx.graphics.getDeltaTime();
-                font.getData().setScale(2.2f);
+                font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
 
                 int numCharsToDraw = (int) (elapsedTime / speed);
 
                 numCharsToDraw = Math.min(numCharsToDraw, text.length());
 
+                // Interpolação para obter a cor gradiente
                 Color color = new Color(
                         Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
                         Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
@@ -170,6 +181,7 @@ public class ContextScreen implements Screen {
             }
         }
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -189,13 +201,7 @@ public class ContextScreen implements Screen {
 
     @Override
     public void dispose() {
-        Assets.darkScreen.dispose();
-        stage.dispose();
+        Assets.gameOver.dispose();
         batch.dispose();
-        Assets.continueButton.dispose();
-        Assets.continueButtonHighlighted.dispose();
-        sound.dispose();
-        soundButton.dispose();
-        background.dispose();
     }
 }
