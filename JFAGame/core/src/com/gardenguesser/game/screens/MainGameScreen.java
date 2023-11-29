@@ -33,7 +33,8 @@ public class MainGameScreen extends Product implements Screen {
     private Stage stage;
 
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameplay_song_final.mp3"));
-    private long id = sound.play();
+    private Sound rightAnswer = Gdx.audio.newSound(Gdx.files.internal("right_answer.mp3"));
+    private Sound wrongAnswer = Gdx.audio.newSound(Gdx.files.internal("wrong_answer.mp3"));
 
     private Product product;
 
@@ -66,6 +67,8 @@ public class MainGameScreen extends Product implements Screen {
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
 
+        sound.loop(0.02f, 1.0f, 0.0f);
+
         float characterX = windowWidth/2 + Assets.mainCharacterFront.getWidth()/ 2 + 90;
         float characterY = windowHeight/2 - Assets.mainCharacterFront.getHeight()/2 - 125;
 
@@ -74,8 +77,6 @@ public class MainGameScreen extends Product implements Screen {
 
         font.setColor(Color.WHITE);
         font.getData().setScale(3.0f);
-
-        sound.setVolume(id, 1/10.0f);
 
         //product.image.setPosition(product.imageX, product.imageY);
         character.setPosition(characterX, characterY);
@@ -102,10 +103,12 @@ public class MainGameScreen extends Product implements Screen {
             // Verifica se o tempo atingiu 15 segundos
             if (timer <= 0) {
                 timer = 10; // Reinicia o temporizador para 15 segundos
-                product.image.setPosition(-windowWidth * 3, -windowHeight * 3);
+                stage.getRoot().removeActor(product.image);
+                //product.image.setPosition(-windowWidth * 3, -windowHeight * 3);
                 super.gerarImagem();
                 product = new Product();
                 erros++;
+                wrongAnswer.play();
                 elapsedTime = 0;
                 // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
@@ -116,12 +119,17 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'F')
+            if(product.answer == 'F') {
                 acertos++;
-            else
+                rightAnswer.play();
+            }
+            else {
                 erros++;
+                wrongAnswer.play();
+            }
             timer = 10;
-            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            stage.getRoot().removeActor(product.image);
+            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -129,12 +137,17 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'P')
+            if(product.answer == 'F') {
                 acertos++;
-            else
+                rightAnswer.play();
+            }
+            else {
                 erros++;
+                wrongAnswer.play();
+            }
             timer = 10;
-            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            stage.getRoot().removeActor(product.image);
+            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -142,12 +155,17 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'V')
+            if(product.answer == 'F') {
                 acertos++;
-            else
+                rightAnswer.play();
+            }
+            else {
                 erros++;
+                wrongAnswer.play();
+            }
             timer = 10;
-            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            stage.getRoot().removeActor(product.image);
+            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -155,28 +173,30 @@ public class MainGameScreen extends Product implements Screen {
 
         if(Gdx.input.getX() >= 1310 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 680 && Gdx.input.getY() <=  765 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
-            if(product.answer == 'L')
+            if(product.answer == 'F') {
                 acertos++;
-            else
+                rightAnswer.play();
+            }
+            else {
                 erros++;
+                wrongAnswer.play();
+            }
             timer = 10;
-            product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
+            stage.getRoot().removeActor(product.image);
+            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
         }
 
-
-
-
-        font.draw(batch, product.nomeProduto, product.imageX - 50, product.imageY - 150);
-        font.draw(batch, "Tempo: " + (int) timer + "s", 50, product.imageY + 350);
-        font.draw(batch, "Acertos: " + acertos, 50, product.imageY + 150);
+        font.draw(batch, product.nomeProduto, product.imageX - 100, product.imageY + 350);
+        font.draw(batch, "Tempo: " + (int) timer + "s", product.imageX - 100, product.imageY + 450);
+        font.draw(batch, "Acertos: " + acertos, 50, product.imageY + 50);
         font.draw(batch, "Erros: " + erros, 50, product.imageY - 50);
 
         batch.end();
 
-        product.image.setPosition(product.imageX, product.imageY);
+        product.image.setPosition(product.imageX - 100, product.imageY);
 
         stage.addActor(product.image);
 

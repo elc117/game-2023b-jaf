@@ -41,7 +41,7 @@ public class ContextScreen implements Screen {
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("context_game_song.mp3"));
 
     private float deltaTime = 0;
-    private float timer = 60;
+    private float timer = 2;
 
     private AnimatedText animatedText;
 
@@ -52,6 +52,15 @@ public class ContextScreen implements Screen {
             "decisiva, \n\ndesempenhando um papel fundamental na ampliação do entendimento científico sobre a " +
             "biodiversidade botânica.\n\n\n\n\n" +
             "Boa sorte !!!";
+
+    private float continueX = 650;
+    private float continueY = -450;
+
+    private TextureRegionDrawable continueButtonVariable;
+    private TextureRegionDrawable continueButtonHighlightedVariable;
+    private ImageButton continueButton;
+
+    private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
 
     // Construtor da classe
@@ -67,12 +76,20 @@ public class ContextScreen implements Screen {
         background = Assets.darkScreen;
         stage = new Stage(new ScreenViewport());
 
-        sound.loop(0.5f, 1.0f, 0.0f);
+        sound.loop(0.2f, 1.0f, 0.0f);
+
+        continueButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.continueButton));
+        continueButton = new ImageButton(continueButtonVariable);
+
+        continueButton.setPosition(continueX, continueY);
 
         animatedText = new AnimatedText(texto, 100, Gdx.graphics.getHeight() - 100);
         animatedText.setGradientColors(Color.WHITE, Color.WHITE); // Defina as cores do gradiente
         animatedText.setSpeed(0.05f); // Defina a velocidade da animação
+
         stage.addActor(animatedText);
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     // Método que renderiza os elementos da tela
@@ -90,9 +107,20 @@ public class ContextScreen implements Screen {
 
 
         if (timer <= 0) {
-            this.dispose();
-            sound.pause();
-            game.setScreen(new WalkIntoGame(game));
+            if(Gdx.input.getX() >= 1560 && Gdx.input.getX() <= 1790 && Gdx.input.getY() >= 880 && Gdx.input.getY() <= 980) {
+                continueButtonVariable.setRegion(new TextureRegion(Assets.continueButtonHighlighted));
+                if (Gdx.input.isTouched())
+                {
+                    soundButton.play();
+                    this.dispose();
+                    sound.pause();
+                    game.setScreen(new WalkIntoGame(game));
+                }
+            }
+            else
+                continueButtonVariable.setRegion(new TextureRegion(Assets.continueButton));
+
+            stage.addActor(continueButton);
         }
 
         batch.begin();

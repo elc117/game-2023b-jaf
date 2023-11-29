@@ -151,13 +151,13 @@ public class Product {
 
             case 18:
                 imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaCogumeloVermelho));
-                nomeProduto = "Cogumelo Vermelho";
+                nomeProduto = "Cogumelo\nVermelho";
                 answer = 'P';
                 break;
 
             case 19:
                 imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.plantaDenteDeLeao));
-                nomeProduto = "Dente-de-Leão";
+                nomeProduto = "Dente\nde Leão";
                 answer = 'P';
                 break;
 
@@ -187,7 +187,7 @@ public class Product {
 
             case 25:
                 imageVariable = new TextureRegionDrawable(new TextureRegion(Assets.verduraBrocolis));
-                nomeProduto = "Brócolos";
+                nomeProduto = "Brócolis";
                 answer = 'V';
                 break;
 

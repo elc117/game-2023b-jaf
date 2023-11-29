@@ -23,23 +23,38 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.gardenguesser.game.Vicente;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class WalkIntoGame implements Screen {
 
-    public static float windowWidth;
-    public static float windowHeight;
+    public static float windowWidth = Gdx.graphics.getWidth();
+    public static float windowHeight = Gdx.graphics.getHeight();
 
     private Texture background;
     private SpriteBatch batch;
     private Game game;
     private Stage stage;
+
     private TextureAtlas atlas;
     private Vicente vicente;
     private boolean podeTrocar;
 
-    // VAI TER O FADE AO ENTRAR NO JARDIM BOTANICO
+    private boolean podeAndar = false;
+    private boolean secondDialogue = false;
 
+    private TextureRegionDrawable marioDialogueVariable;
+    private ImageButton marioDialogue;
 
+    private float marioDialogueX = 0;
+    private float marioDialogueY = 0;
+
+    private String text = "Nossa, estou muito empolgado, mal\nposso esperar para começar\na atuar no Jardim Botânico !!!";
+    private AnimatedText animatedText;
+
+    private Sound soundWalking = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+
+    private long soundId;
 
     public WalkIntoGame(Game game){
         this.game = game;
@@ -50,13 +65,28 @@ public class WalkIntoGame implements Screen {
     public void show() {
         atlas = new TextureAtlas("Vicente_Movimentos.pack");
         Assets.loadAssets();
+
         batch = new SpriteBatch();
         background = Assets.botanicalGardenStreet;
-        windowWidth = Gdx.graphics.getWidth();
-        windowHeight = Gdx.graphics.getHeight();
+
         vicente = new Vicente(this);
+
         stage = new Stage(new ScreenViewport());
+
         podeTrocar = false;
+
+        animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
+        animatedText.setGradientColors(Color.BLACK, Color.BLACK); // Defina as cores do gradiente
+        animatedText.setSpeed(0.05f); // Defina a velocidade da animação
+
+        marioDialogueVariable = new TextureRegionDrawable(new TextureRegion(Assets.marioDialogue));
+        marioDialogue = new ImageButton(marioDialogueVariable);
+
+        marioDialogue.setPosition(marioDialogueX, marioDialogueY);
+
+        stage.addActor(marioDialogue);
+        stage.addActor(animatedText);
+
         Gdx.input.setInputProcessor(stage);
     }
 
@@ -64,28 +94,69 @@ public class WalkIntoGame implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         vicente.setStateTime(delta);
+
+        if(podeAndar == false && Gdx.input.isTouched()) {
+            podeAndar = true;
+            stage.getRoot().removeActor(animatedText);
+            stage.getRoot().removeActor(marioDialogue);
+            soundId = soundWalking.loop(1.0f, 0.8f, 0.0f);
+        }
+
+        if(vicente.getPosX() >= 1110.0f && secondDialogue == false)
+        {
+            secondDialogue = true;
+            podeAndar = false;
+            soundWalking.pause();
+            text = "Preciso me apressar! \nNão posso chegar atrasado,\nainda mais no meu primeiro dia!";
+            animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
+            animatedText.setGradientColors(Color.BLACK, Color.BLACK); // Defina as cores do gradiente
+            animatedText.setSpeed(0.05f);
+            stage.addActor(marioDialogue);
+            stage.addActor(animatedText);
+        }
+
+        if(secondDialogue == true && Gdx.input.isTouched())
+        {
+            podeAndar = true;
+            stage.getRoot().removeActor(animatedText);
+            stage.getRoot().removeActor(marioDialogue);
+            soundWalking.setPitch(soundId, 1.2f);
+        }
+
         batch.begin();
         batch.draw(background, 0, 0);
+
         TextureRegion currentFrame = new TextureRegion(animacaoVicente());
+
         vicente.setRegion(currentFrame);
         vicente.draw(batch);
+
         batch.end();
         if(podeTrocar)
             transicaoTela();
+
+
+        stage.act(delta);
+        stage.draw();
+
+
         //sound.pause();
         //game.setScreen(new MainGameScreen(game));
     }
     private TextureRegion animacaoVicente() {
-        if (vicente.getPosX() <1110.0f ){
+        if (vicente.getPosX() <1110.0f && podeAndar == true){
             vicente.andarParaDireita();
             return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
         }
-        else if (vicente.getPosY() >= 710.0f){
-            podeTrocar = true;
+        else if (vicente.getPosY() >= 710.0f && podeAndar == true){
+            //podeTrocar = true;
+            soundWalking.pause();
+            game.setScreen(new MainGameScreen(game));
             return vicente.getVicenteCostas();
         }
-        else if(vicente.getPosX() >= 1110.0f) {
+        else if(vicente.getPosX() >= 1110.0f && podeAndar == true) {
             vicente.andarParaCima();
             return vicente.andarCima.getKeyFrame(vicente.getStateTime(), true);
         }
@@ -97,6 +168,53 @@ public class WalkIntoGame implements Screen {
         FadeScreen.FadeInfo fadeIn = new FadeScreen.FadeInfo(FadeScreen.FadeType.IN, Color.WHITE, Interpolation.smoother, 2.0f);
         FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new FadeScreen(game, fadeIn, new MainGameScreen(game), null));
         game.setScreen(fadeScreen);
+    }
+
+    private static class AnimatedText extends Actor {
+        private CharSequence text;
+        private BitmapFont font;
+        private float elapsedTime = 0;
+        private float speed = 0.1f;
+
+        // Gradiente
+        private Color startColor;
+        private Color endColor;
+
+        public AnimatedText(CharSequence text, float x, float y) {
+            this.text = text;
+            font = new BitmapFont();
+            setPosition(x, y);
+        }
+
+        public void setGradientColors(Color startColor, Color endColor) {
+            this.startColor = startColor;
+            this.endColor = endColor;
+        }
+
+        public void setSpeed(float speed) {
+            this.speed = speed;
+        }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha) {
+            elapsedTime += Gdx.graphics.getDeltaTime();
+            font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
+
+            int numCharsToDraw = (int) (elapsedTime / speed);
+
+            numCharsToDraw = Math.min(numCharsToDraw, text.length());
+
+            // Interpolação para obter a cor gradiente
+            Color color = new Color(
+                    Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
+                    Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
+                    Interpolation.linear.apply(startColor.b, endColor.b, elapsedTime * speed),
+                    Interpolation.linear.apply(startColor.a, endColor.a, elapsedTime * speed)
+            );
+
+            font.setColor(color);
+            font.draw(batch, text.subSequence(0, numCharsToDraw), getX(), getY());
+        }
     }
 
 

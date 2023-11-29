@@ -31,7 +31,7 @@ public class Vicente extends Sprite {
     }
         //
     public void andarParaDireita() {
-        setPosition(posX+=10.0f, posY);
+        setPosition(posX+=1.5f, posY);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 0; i<4; i++) {
             if(i ==0)
@@ -53,7 +53,7 @@ public class Vicente extends Sprite {
         andarEsquerda = new Animation<>(0.4f,frames,Animation.PlayMode.LOOP);
     }
     public void andarParaCima() {
-        setPosition(posX, posY+=1.0f);
+        setPosition(posX, posY+=2.0f);
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for(int i = 0; i<4; i++) {
             if(i ==0)

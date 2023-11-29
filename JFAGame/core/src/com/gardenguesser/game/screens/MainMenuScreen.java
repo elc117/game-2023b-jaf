@@ -49,7 +49,6 @@ public class MainMenuScreen implements Screen {
     private ImageButton exitButton;
 
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("menu_song.mp3"));
-    private long id = sound.play();
     private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
 
@@ -66,7 +65,7 @@ public class MainMenuScreen implements Screen {
         background = Assets.menu;
         stage = new Stage(new ScreenViewport());
 
-        sound.setVolume(id, 1/10.0f);
+        sound.loop(0.1f, 1.0f, 0.0f);
 
         float playButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
         float playButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;

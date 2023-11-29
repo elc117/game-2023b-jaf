@@ -7,14 +7,23 @@ public class Assets {
     public static Texture mainCharacter;
     public static Texture botanicalGardenStreet;
     public static Texture darkScreen;
+    public static Texture gameOver;
+    public static Texture gameWon;
 
     public static Texture mainCharacterFront;
+
+    public static Texture professorDialogue;
+    public static Texture marioDialogue;
 
     public static Texture menu;
     public static Texture playButton;
     public static Texture exitButton;
     public static Texture playButtonHighlighted;
     public static Texture exitButtonHighlighted;
+    public static Texture continueButton;
+    public static Texture continueButtonHighlighted;
+    public static Texture playAgainButton;
+    public static Texture playAgainButtonHighlighted;
 
     //public static Texture blackFadeOut;
 
@@ -85,6 +94,14 @@ public class Assets {
         verduraBrocolis = new Texture ("verdura_brocolis.png");
         verduraCouveFlor = new Texture ("verdura_couve_flor.png");
         verduraRepolhoRoxo = new Texture ("verdura_repolho_roxo.png");
+        gameOver = new Texture("game_over_background.png");
+        gameWon = new Texture("game_won_background.png");
+        continueButton = new Texture ("continue_button.png");
+        continueButtonHighlighted = new Texture ("continue_button_highlighted.png");
+        playAgainButton = new Texture ("play_again_button.png");
+        playAgainButtonHighlighted = new Texture ("play_again_button_highlighted.png");
+        professorDialogue = new Texture ("professor_dialogue_box.png");
+        marioDialogue = new Texture ("mario_dialogue_box.png");
     }
 
 }
