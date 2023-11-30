@@ -168,7 +168,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -186,7 +185,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;

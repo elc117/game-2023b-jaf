@@ -37,7 +37,7 @@ public class ContextScreen implements Screen {
     private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
     private float deltaTime = 0;
-    private float timer = 26;
+    private float timer = 1;
 
     private AnimatedText animatedText;
 

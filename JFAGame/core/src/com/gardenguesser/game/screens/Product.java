@@ -203,8 +203,6 @@ public class Product {
         imageX = windowWidth/2 + 700;
         imageY = windowHeight/2 ;
 
-        //image.setSize(200, 200);
-
     }
 
 }
