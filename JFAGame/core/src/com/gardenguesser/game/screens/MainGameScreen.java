@@ -32,6 +32,8 @@ public class MainGameScreen extends Product implements Screen {
     public static float windowWidth = Gdx.graphics.getWidth();
     public static float windowHeight = Gdx.graphics.getHeight();
 
+    // test commit
+
     private SpriteBatch batch;
     private Texture background;
     private TextureAtlas atlasProf;
