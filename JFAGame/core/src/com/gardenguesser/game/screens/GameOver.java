@@ -38,7 +38,7 @@ public class GameOver implements Screen {
 
 
     private String text = "Infelizmente você acabou não passando no teste,\ne não conseguirá a vaga como bolsista dessa vez :(";
-    private AnimatedText animatedText;
+    private BitmapFont font;
 
     private TextureRegionDrawable playAgainButtonVariable;
     private TextureRegionDrawable playAgainHighlightedVariable;
@@ -64,16 +64,16 @@ public class GameOver implements Screen {
 
         background = Assets.gameOver;
 
+        font = new BitmapFont();
+        font.setColor(Color.RED);
+        font.getData().setScale(3.0f);
+
         stage = new Stage(new ScreenViewport());
 
-        animatedText = new AnimatedText(text, 300, Gdx.graphics.getHeight()/2);
-        animatedText.setGradientColors(Color.WHITE, Color.WHITE); // Defina as cores do gradiente
-        animatedText.setSpeed(0.05f); // Defina a velocidade da animação
-
-        float playAgainButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
-        float playAgainButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
-        float exitButtonX = windowWidth / 2 - Assets.exitButton.getWidth() / 2;
-        float exitButtonY = windowHeight / 2 - Assets.exitButton.getHeight() / 2 - 150;
+        float playAgainButtonX = -200;
+        float playAgainButtonY = -300;
+        float exitButtonX = 300;
+        float exitButtonY = -310;
 
         playAgainButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.playAgainButton));
         playAgainButton = new ImageButton(playAgainButtonVariable);
@@ -84,7 +84,6 @@ public class GameOver implements Screen {
         playAgainButton.setPosition(playAgainButtonX, playAgainButtonY);
         exitButton.setPosition(exitButtonX, exitButtonY);
 
-        stage.addActor(animatedText);
         stage.addActor(playAgainButton);
         stage.addActor(exitButton);
 
@@ -96,10 +95,9 @@ public class GameOver implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
         batch.begin();
-        batch.draw(background, -600, 0);
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540) {
+        batch.draw(background, 0, 0);
+        if(Gdx.input.getX() >= 490 && Gdx.input.getX() <= 990 && Gdx.input.getY() >= 760 && Gdx.input.getY() <= 865) {
             playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButtonHighlighted));
             if (Gdx.input.isTouched())
             {
@@ -113,7 +111,7 @@ public class GameOver implements Screen {
         else
             playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButton));
 
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690) {
+        if(Gdx.input.getX() >= 1135 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 760 && Gdx.input.getY() <= 860) {
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButtonHighlighted));
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
@@ -122,64 +120,13 @@ public class GameOver implements Screen {
         else
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
 
+        font.draw(batch, text, 400, windowHeight/2);
+
         batch.end();
 
 
         stage.act(delta);
         stage.draw();
-
-
-        //sound.pause();
-        //game.setScreen(new MainGameScreen(game));
-    }
-
-    private static class AnimatedText extends Actor {
-        private CharSequence text;
-        private BitmapFont font;
-        private float elapsedTime = 0;
-        private float speed = 0.1f;
-
-        // Gradiente
-        private Color startColor;
-        private Color endColor;
-
-        public AnimatedText(CharSequence text, float x, float y) {
-            this.text = text;
-            font = new BitmapFont();
-            setPosition(x, y);
-        }
-
-        public void setGradientColors(Color startColor, Color endColor) {
-            this.startColor = startColor;
-            this.endColor = endColor;
-        }
-
-        public void setSpeed(float speed) {
-            this.speed = speed;
-        }
-
-        @Override
-        public void draw(Batch batch, float parentAlpha) {
-            if (font != null) {
-                elapsedTime += Gdx.graphics.getDeltaTime();
-                font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
-
-                int numCharsToDraw = (int) (elapsedTime / speed);
-
-                numCharsToDraw = Math.min(numCharsToDraw, text.length());
-
-                // Interpolação para obter a cor gradiente
-                Color color = new Color(
-                        Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
-                        Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
-                        Interpolation.linear.apply(startColor.b, endColor.b, elapsedTime * speed),
-                        Interpolation.linear.apply(startColor.a, endColor.a, elapsedTime * speed)
-                );
-
-                font.setColor(color);
-                font.draw(batch, text.subSequence(0, numCharsToDraw), getX(), getY());
-            }
-        }
     }
 
 
@@ -203,5 +150,6 @@ public class GameOver implements Screen {
     public void dispose() {
         Assets.gameOver.dispose();
         batch.dispose();
+        font.dispose();
     }
 }
