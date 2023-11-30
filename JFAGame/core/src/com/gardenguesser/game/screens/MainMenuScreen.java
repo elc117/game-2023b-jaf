@@ -87,10 +87,8 @@ public class MainMenuScreen implements Screen {
             if (Gdx.input.isTouched())
             {
                 soundButton.play();
-                //this.dispose();
                 sound.pause();
                 transicaoTela();
-                //game.setScreen(new ContextScreen(game));
             }
         }
         else
@@ -141,6 +139,7 @@ public class MainMenuScreen implements Screen {
         soundButton.dispose();
         background.dispose();
     }
+
     private void transicaoTela() {
         FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
         FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new ContextScreen(game));

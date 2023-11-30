@@ -38,8 +38,6 @@ public class MainGameScreen extends Product implements Screen {
     private Game game;
     private Stage stage;
     private TextureRegion currentFrame;
-
-
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameplay_song_final.mp3"));
     private Sound rightAnswer = Gdx.audio.newSound(Gdx.files.internal("right_answer.mp3"));
     private Sound wrongAnswer = Gdx.audio.newSound(Gdx.files.internal("wrong_answer.mp3"));
@@ -77,6 +75,11 @@ public class MainGameScreen extends Product implements Screen {
     private boolean dialogueOne = false;
     private boolean secondDialogue = false;
 
+    private boolean playMusic = false;
+    private boolean controle = false;
+
+    private boolean controle2 = false;
+
     public MainGameScreen(Game game){
         super();
         this.game = game;
@@ -111,11 +114,7 @@ public class MainGameScreen extends Product implements Screen {
 
         sound.pause();
 
-        soundWalking.loop(1.0f, 1.0f, 1.0f);
-
-        //product.image.setPosition(product.imageX - 100, product.imageY);
-
-        //stage.addActor(product.image);
+        soundWalking.loop(1.0f, 0.8f, 1.0f);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -143,32 +142,43 @@ public class MainGameScreen extends Product implements Screen {
             stage.addActor(professorDialogue);
             animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight() / 2);
             animatedText.setGradientColors(Color.BLACK, Color.BLACK);
-            animatedText.setSpeed(0.05f);
+            animatedText.setSpeed(0.03f);
             stage.addActor(professorDialogue);
             stage.addActor(animatedText);
             text = "Você terá que classificar diferentes produtos\ndo acervo do Jardim Botânico em \nquatro diferentes categorias:\n 'F' represeta Frutas, 'P' representa plantas, \n'V' representa verduras e  'L' representa legumes. \nEntendido? Vamos começar?";
             deltaTime = 0;
         }
 
-        if (dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 8) {
+        if (dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 7) {
             stage.getRoot().removeActor(animatedText);
             long soundId = soundTalking.play();
             soundTalking.setPitch(soundId, 1.1f);
             animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight() / 2);
             animatedText.setGradientColors(Color.BLACK, Color.BLACK);
-            animatedText.setSpeed(0.05f);
+            animatedText.setSpeed(0.03f);
             stage.addActor(animatedText);
             secondDialogue = true;
             deltaTime = 0;
         }
 
-        if (secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 12) {
+        if (secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 10) {
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(professorDialogue);
             podeAndar = true;
         }
 
+        if(playMusic == true && controle == false){
+            controle = true;
+            soundWalking.loop(1.0f, 0.8f, 1.0f);
+        }
+
         if(startGame == true) {
+            if(playMusic == true && controle == true && controle2 == false){
+                controle2 = true;
+                soundWalking.pause();
+                sound.loop(0.2f, 1.0f, 1.0f);
+            }
+
             if (erros > 5) {
                 sound.pause();
                 game.setScreen(new GameOver(game));
@@ -364,9 +374,11 @@ public class MainGameScreen extends Product implements Screen {
         batch.dispose();
         font.dispose();
     }
+
     public TextureAtlas getAtlas() {
         return atlas;
     }
+
     private TextureRegion animacaoVicente() {
         if(vicente.getPosY() <= 510.0f){
             vicente.andarParaCima();
@@ -388,8 +400,12 @@ public class MainGameScreen extends Product implements Screen {
         else
             return vicente.getVicenteCostas();
     }
+
     private TextureRegion animacaoVicente2() {
         if(vicente.getPosX() <= 870.0f && podeAndar && primeiraAnimacaoConcluida){
+            if (playMusic == false && controle == false) {
+                playMusic = true;
+            }
             vicente.andarParaDireita();
             return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
         }
@@ -416,6 +432,7 @@ public class MainGameScreen extends Product implements Screen {
         else
             return vicente.getVicenteFrente();
     }
+
     public TextureAtlas getAtlasProf() {
         return atlasProf;
     }

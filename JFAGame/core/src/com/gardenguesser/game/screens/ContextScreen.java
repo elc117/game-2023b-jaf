@@ -94,17 +94,14 @@ public class ContextScreen implements Screen {
             deltaTime = 0;
         }
 
-
         if (timer <= 0) {
             if(Gdx.input.getX() >= 1560 && Gdx.input.getX() <= 1790 && Gdx.input.getY() >= 880 && Gdx.input.getY() <= 980) {
                 continueButtonVariable.setRegion(new TextureRegion(Assets.continueButtonHighlighted));
                 if (Gdx.input.isTouched())
                 {
                     soundButton.play();
-                    //this.dispose();
                     sound.pause();
                     transicaoTela();
-                    //game.setScreen(new WalkIntoGame(game));
                 }
             }
             else
@@ -198,6 +195,7 @@ public class ContextScreen implements Screen {
         soundButton.dispose();
         background.dispose();
     }
+
     private void transicaoTela() {
         FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
         FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new WalkIntoGame(game));

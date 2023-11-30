@@ -104,10 +104,6 @@ public class GameOver implements Screen {
             {
                 soundButton.play();
                 transicaoTela();
-                //this.dispose();
-                //sound.pause();
-
-                //game.setScreen(new MainGameScreen(game));
             }
         }
         else
@@ -122,7 +118,7 @@ public class GameOver implements Screen {
         else
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
 
-        font.draw(batch, text, 400, windowHeight/2);
+        font.draw(batch, text, 500, windowHeight/2);
 
         batch.end();
 

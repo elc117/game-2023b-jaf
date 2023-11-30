@@ -261,6 +261,7 @@ public class WalkIntoGame implements Screen {
         soundWalking.dispose();
         background.dispose();
     }
+
     public TextureAtlas getAtlas() {
         return atlas;
     }

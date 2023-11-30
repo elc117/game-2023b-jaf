@@ -103,10 +103,8 @@ public class GameWon implements Screen {
             if (Gdx.input.isTouched())
             {
                 soundButton.play();
-                //this.dispose();
                 sound.pause();
                 transicaoTela();
-                //game.setScreen(new MainGameScreen(game));
             }
         }
         else

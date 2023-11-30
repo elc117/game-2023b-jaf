@@ -14,4 +14,4 @@ Mas caso erre muito o jogador perde o jogo e acaba não conseguindo a vaga como 
 * https://www.youtube.com/playlist?list=PLrnO5Pu2zAHKAIjRtTLAXtZKMSA6JWnmf
 * https://www.youtube.com/watch?v=GN2KV4zQfEk&ab_channel=Gamefromscratch
 * https://gamefromscratch.com/libgdx-tutorial-2-hello-world/
-* 
+* https://chat.openai.com/
