@@ -48,7 +48,7 @@ public class GameOver implements Screen {
     private TextureRegionDrawable exitButtonHighlightedVariable;
     private ImageButton exitButton;
 
-    //private Sound sound = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("game_over_sfx.mp3"));
     private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
     public GameOver(Game game){
@@ -63,6 +63,8 @@ public class GameOver implements Screen {
         batch = new SpriteBatch();
 
         background = Assets.gameOver;
+
+        sound.play();
 
         font = new BitmapFont();
         font.setColor(Color.RED);
