@@ -89,7 +89,6 @@ public class MainMenuScreen implements Screen {
                 soundButton.play();
                 this.dispose();
                 sound.pause();
-                //game.setScreen(new ContextScreen(game));
                 game.setScreen(new ContextScreen(game));
             }
         }

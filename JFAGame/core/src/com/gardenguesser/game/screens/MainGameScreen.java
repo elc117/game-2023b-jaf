@@ -32,9 +32,6 @@ public class MainGameScreen extends Product implements Screen {
     public static float windowWidth = Gdx.graphics.getWidth();
     public static float windowHeight = Gdx.graphics.getHeight();
 
-    // test commit
-    // aaaaaaa
-
     private SpriteBatch batch;
     private Texture background;
     private TextureAtlas atlasProf;
@@ -134,18 +131,18 @@ public class MainGameScreen extends Product implements Screen {
         deltaTime += delta;
         elapsedTime += delta;
 
-        if(deltaTime > 5 && secondDialogue == false)
+        if (deltaTime > 5 && secondDialogue == false)
             soundTalking.pause();
 
-        if(podeAndar == false && dialogueOne == false) {
+        if (podeAndar == false && dialogueOne == false) {
             long soundId = soundTalking.play();
             soundTalking.setPitch(soundId, 1.3f);
             soundWalking.pause();
             dialogueOne = true;
             professorDialogue.setPosition(professorDialogueX, professorDialogueY);
             stage.addActor(professorDialogue);
-            animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
-            animatedText.setGradientColors(Color.BLACK, Color.BLACK); // Defina as cores do gradiente
+            animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight() / 2);
+            animatedText.setGradientColors(Color.BLACK, Color.BLACK);
             animatedText.setSpeed(0.05f);
             stage.addActor(professorDialogue);
             stage.addActor(animatedText);
@@ -153,11 +150,11 @@ public class MainGameScreen extends Product implements Screen {
             deltaTime = 0;
         }
 
-        if(dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 7) {
+        if (dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 8) {
             stage.getRoot().removeActor(animatedText);
             long soundId = soundTalking.play();
-            soundTalking.setPitch(soundId, 1.2f);
-            animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
+            soundTalking.setPitch(soundId, 1.1f);
+            animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight() / 2);
             animatedText.setGradientColors(Color.BLACK, Color.BLACK);
             animatedText.setSpeed(0.05f);
             stage.addActor(animatedText);
@@ -165,15 +162,11 @@ public class MainGameScreen extends Product implements Screen {
             deltaTime = 0;
         }
 
-        if(secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 10)
-        {
+        if (secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 12) {
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(professorDialogue);
             podeAndar = true;
         }
-
-
-
 
         if(startGame == true) {
             if (erros > 5) {
@@ -413,8 +406,10 @@ public class MainGameScreen extends Product implements Screen {
                     vicente.andarParaDireita();
                     return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
                 }
-                else
+                else {
+                    startGame = true;
                     return vicente.getVicenteFrente();
+                }
             }
             else
                 return vicente.getVicenteFrente();
