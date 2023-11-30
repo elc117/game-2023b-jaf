@@ -149,7 +149,7 @@ public class MainGameScreen extends Product implements Screen {
             deltaTime = 0;
         }
 
-        if (dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 7) {
+        if (dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 6) {
             stage.getRoot().removeActor(animatedText);
             long soundId = soundTalking.play();
             soundTalking.setPitch(soundId, 1.1f);
@@ -161,7 +161,7 @@ public class MainGameScreen extends Product implements Screen {
             deltaTime = 0;
         }
 
-        if (secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 10) {
+        if (secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 9) {
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(professorDialogue);
             podeAndar = true;
