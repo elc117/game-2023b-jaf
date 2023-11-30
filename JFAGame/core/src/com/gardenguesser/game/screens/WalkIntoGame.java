@@ -38,7 +38,7 @@ public class WalkIntoGame implements Screen {
 
     private TextureAtlas atlas;
     private Vicente vicente;
-    private boolean podeTrocar;
+    private boolean podeTrocar, telaTrocada;
 
     private boolean podeAndar = false;
     private boolean secondDialogue = false;
@@ -68,7 +68,7 @@ public class WalkIntoGame implements Screen {
     public void show() {
         atlas = new TextureAtlas("Vicente_Movimentos.pack");
         Assets.loadAssets();
-
+        telaTrocada = false;
         batch = new SpriteBatch();
         background = Assets.botanicalGardenStreet;
 
@@ -146,10 +146,11 @@ public class WalkIntoGame implements Screen {
         vicente.draw(batch);
 
         batch.end();
-        //if(podeTrocar)
-            //transicaoTela();
-
-
+        if(podeTrocar && !telaTrocada)
+        {
+            telaTrocada = true;
+            transicaoTela();
+        }
         stage.act(delta);
         stage.draw();
     }
@@ -159,10 +160,8 @@ public class WalkIntoGame implements Screen {
             return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
         }
         else if (vicente.getPosY() >= 710.0f && podeAndar == true){
-            //podeTrocar = true;
+            podeTrocar = true;
             soundWalking.pause();
-            this.dispose();
-            game.setScreen(new MainGameScreen(game));
             return vicente.getVicenteCostas();
         }
         else if(vicente.getPosX() >= 1110.0f && podeAndar == true) {
@@ -172,12 +171,11 @@ public class WalkIntoGame implements Screen {
         else
             return vicente.getVicenteFrente();
     }
-    //private void transicaoTela() {
-        //FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
-        //FadeScreen.FadeInfo fadeIn = new FadeScreen.FadeInfo(FadeScreen.FadeType.IN, Color.WHITE, Interpolation.smoother, 2.0f);
-        //FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new FadeScreen(game, fadeIn, new MainGameScreen(game), null));
-        //game.setScreen(fadeScreen);
-    //}
+    private void transicaoTela() {
+        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new MainGameScreen(game));
+        game.setScreen(fadeScreen);
+    }
 
     private static class AnimatedText extends Actor {
         private CharSequence text;
