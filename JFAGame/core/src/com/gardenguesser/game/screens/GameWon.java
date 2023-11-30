@@ -103,10 +103,10 @@ public class GameWon implements Screen {
             if (Gdx.input.isTouched())
             {
                 soundButton.play();
-                this.dispose();
-                //sound.pause();
-
-                game.setScreen(new MainGameScreen(game));
+                //this.dispose();
+                sound.pause();
+                transicaoTela();
+                //game.setScreen(new MainGameScreen(game));
             }
         }
         else
@@ -151,5 +151,10 @@ public class GameWon implements Screen {
         Assets.gameWon.dispose();
         batch.dispose();
         font.dispose();
+    }
+    private void transicaoTela() {
+        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new MainGameScreen(game));
+        game.setScreen(fadeScreen);
     }
 }

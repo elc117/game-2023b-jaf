@@ -62,7 +62,7 @@ public class MainGameScreen extends Product implements Screen {
     private float elapsedTime;
     private float interval = 1f;
 
-    private String text = "Opa, estava destraído!\nAcabei nem te vendo chegar\nMas enfim bom dia, Mário.\nVamos realizar com você um teste para\ntestar seu conhecimento botânico, ok?";
+    private String text = "Opa, estava distraído!\nAcabei nem te vendo chegar\nMas enfim bom dia, Mário.\nVamos realizar com você um teste para\ntestar seu conhecimento botânico, ok?";
     private AnimatedText animatedText;
 
     private TextureRegionDrawable professorDialogueVariable;
@@ -335,7 +335,6 @@ public class MainGameScreen extends Product implements Screen {
                         Interpolation.linear.apply(startColor.b, endColor.b, elapsedTime * speed),
                         Interpolation.linear.apply(startColor.a, endColor.a, elapsedTime * speed)
                 );
-
                 font.setColor(color);
                 font.draw(batch, text.subSequence(0, numCharsToDraw), getX(), getY());
             }

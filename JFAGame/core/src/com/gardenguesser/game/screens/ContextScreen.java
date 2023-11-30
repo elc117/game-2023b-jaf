@@ -101,9 +101,10 @@ public class ContextScreen implements Screen {
                 if (Gdx.input.isTouched())
                 {
                     soundButton.play();
-                    this.dispose();
+                    //this.dispose();
                     sound.pause();
-                    game.setScreen(new WalkIntoGame(game));
+                    transicaoTela();
+                    //game.setScreen(new WalkIntoGame(game));
                 }
             }
             else
@@ -196,5 +197,10 @@ public class ContextScreen implements Screen {
         sound.dispose();
         soundButton.dispose();
         background.dispose();
+    }
+    private void transicaoTela() {
+        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new WalkIntoGame(game));
+        game.setScreen(fadeScreen);
     }
 }

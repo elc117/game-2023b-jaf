@@ -103,10 +103,11 @@ public class GameOver implements Screen {
             if (Gdx.input.isTouched())
             {
                 soundButton.play();
-                this.dispose();
+                transicaoTela();
+                //this.dispose();
                 //sound.pause();
 
-                game.setScreen(new MainGameScreen(game));
+                //game.setScreen(new MainGameScreen(game));
             }
         }
         else
@@ -152,5 +153,10 @@ public class GameOver implements Screen {
         Assets.gameOver.dispose();
         batch.dispose();
         font.dispose();
+    }
+    private void transicaoTela() {
+        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new MainGameScreen(game));
+        game.setScreen(fadeScreen);
     }
 }
