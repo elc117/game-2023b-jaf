@@ -51,7 +51,7 @@ public class MainGameScreen extends Product implements Screen {
     private boolean areaClicked = false;
 
     private float elapsedTime;
-    private float interval = 1f; // intervalo desejado em segundos
+    private float interval = 1f;
 
     public MainGameScreen(Game game){
         super();
@@ -84,10 +84,10 @@ public class MainGameScreen extends Product implements Screen {
         font.setColor(Color.WHITE);
         font.getData().setScale(3.0f);
 
-        //product.image.setPosition(product.imageX, product.imageY);
+        product.image.setPosition(product.imageX - 100, product.imageY);
         character.setPosition(characterX, characterY);
 
-        //stage.addActor(product.image);
+        stage.addActor(product.image);
         stage.addActor(character);
 
         Gdx.input.setInputProcessor(stage);
@@ -116,17 +116,14 @@ public class MainGameScreen extends Product implements Screen {
             timer -= 1;
             deltaTime = 0;
 
-            // Verifica se o tempo atingiu 15 segundos
             if (timer <= 0) {
-                timer = 10; // Reinicia o temporizador para 15 segundos
+                timer = 10;
                 stage.getRoot().removeActor(product.image);
-                //product.image.setPosition(-windowWidth * 3, -windowHeight * 3);
                 super.gerarImagem();
                 product = new Product();
                 erros++;
                 wrongAnswer.play();
                 elapsedTime = 0;
-                // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
         }
 
@@ -146,7 +143,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -164,7 +160,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -206,7 +201,14 @@ public class MainGameScreen extends Product implements Screen {
             elapsedTime = 0f;
         }
 
-        font.draw(batch, product.nomeProduto, product.imageX - 100, product.imageY + 350);
+        if(product.nomeProduto == null) {
+            super.gerarImagem();
+            product = new Product();
+        }
+
+        if (product.nomeProduto != null) {
+            font.draw(batch, product.nomeProduto, product.imageX - 100, product.imageY + 350);
+        }
         font.draw(batch, "Tempo: " + (int) timer + "s", product.imageX - 100, product.imageY + 450);
         font.draw(batch, "Acertos: " + acertos, 50, product.imageY + 50);
         font.draw(batch, "Erros: " + erros, 50, product.imageY - 50);

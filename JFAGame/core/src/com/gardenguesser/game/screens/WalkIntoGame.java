@@ -146,8 +146,8 @@ public class WalkIntoGame implements Screen {
         vicente.draw(batch);
 
         batch.end();
-        if(podeTrocar)
-            transicaoTela();
+        //if(podeTrocar)
+            //transicaoTela();
 
 
         stage.act(delta);
@@ -172,12 +172,12 @@ public class WalkIntoGame implements Screen {
         else
             return vicente.getVicenteFrente();
     }
-    private void transicaoTela() {
-        FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
-        FadeScreen.FadeInfo fadeIn = new FadeScreen.FadeInfo(FadeScreen.FadeType.IN, Color.WHITE, Interpolation.smoother, 2.0f);
-        FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new FadeScreen(game, fadeIn, new MainGameScreen(game), null));
-        game.setScreen(fadeScreen);
-    }
+    //private void transicaoTela() {
+        //FadeScreen.FadeInfo fadeOut = new FadeScreen.FadeInfo(FadeScreen.FadeType.OUT, Color.BLACK, Interpolation.smoother, 2.0f);
+        //FadeScreen.FadeInfo fadeIn = new FadeScreen.FadeInfo(FadeScreen.FadeType.IN, Color.WHITE, Interpolation.smoother, 2.0f);
+        //FadeScreen fadeScreen = new FadeScreen(game, fadeOut, this, new FadeScreen(game, fadeIn, new MainGameScreen(game), null));
+        //game.setScreen(fadeScreen);
+    //}
 
     private static class AnimatedText extends Actor {
         private CharSequence text;

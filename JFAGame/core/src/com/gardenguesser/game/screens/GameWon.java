@@ -36,8 +36,7 @@ public class GameWon implements Screen {
     private Game game;
     private Stage stage;
 
-
-    private String text = "Parabéns, você teve um desempenho excelente!!\nVocê se saiu muito bem na prova!!\nSendo assim, a vaga como bolsista no Jardim Botânico\né toda sua!!! ";
+    private String text = "Parabéns, você teve um desempenho excelente!!\nVocê se saiu muito bem na prova!!\nSendo assim, a vaga como bolsista no Jardim Botânico é toda sua!!! ";
     private BitmapFont font;
 
     private TextureRegionDrawable playAgainButtonVariable;
@@ -48,11 +47,8 @@ public class GameWon implements Screen {
     private TextureRegionDrawable exitButtonHighlightedVariable;
     private ImageButton exitButton;
 
-    //private Sound sound = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("game_win_sfx.mp3"));
     private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
-
-    private float deltaTime = 0;
-    private float timer = 10;
 
     public GameWon(Game game){
         this.game = game;
@@ -65,16 +61,20 @@ public class GameWon implements Screen {
 
         batch = new SpriteBatch();
 
-        background = Assets.gameWon ;
+        sound.play();
 
+        background = Assets.gameWon;
+
+        font = new BitmapFont();
         font.setColor(Color.BLACK);
+        font.getData().setScale(2.5f);
 
         stage = new Stage(new ScreenViewport());
 
-        float playAgainButtonX = windowWidth / 2 - Assets.playButton.getWidth() / 2 - 75;
-        float playAgainButtonY = windowHeight / 2 - Assets.playButton.getHeight() / 2;
-        float exitButtonX = windowWidth / 2 - Assets.exitButton.getWidth() / 2;
-        float exitButtonY = windowHeight / 2 - Assets.exitButton.getHeight() / 2 - 150;
+        float playAgainButtonX = -200;
+        float playAgainButtonY = -300;
+        float exitButtonX = 300;
+        float exitButtonY = -310;
 
         playAgainButtonVariable = new TextureRegionDrawable(new TextureRegion(Assets.playAgainButton));
         playAgainButton = new ImageButton(playAgainButtonVariable);
@@ -96,29 +96,23 @@ public class GameWon implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        deltaTime += delta;
-
-        if (deltaTime >= 1) {
-            timer -= 1;
-            deltaTime = 0;
-        }
-
         batch.begin();
-        batch.draw(background, 100, 0);
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 440 && Gdx.input.getY() <= 540) {
+        batch.draw(background, 0, 0);
+        if(Gdx.input.getX() >= 490 && Gdx.input.getX() <= 990 && Gdx.input.getY() >= 760 && Gdx.input.getY() <= 865) {
             playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButtonHighlighted));
-            if (Gdx.input.isTouched() && timer <= 0)
+            if (Gdx.input.isTouched())
             {
                 soundButton.play();
                 this.dispose();
                 //sound.pause();
+
                 game.setScreen(new MainGameScreen(game));
             }
         }
         else
             playAgainButtonVariable.setRegion(new TextureRegion(Assets.playAgainButton));
 
-        if(Gdx.input.getX() >= 840 && Gdx.input.getX() <= 1070 && Gdx.input.getY() >= 590 && Gdx.input.getY() <= 690) {
+        if(Gdx.input.getX() >= 1135 && Gdx.input.getX() <= 1365 && Gdx.input.getY() >= 760 && Gdx.input.getY() <= 860) {
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButtonHighlighted));
             if (Gdx.input.isTouched()) {
                 Gdx.app.exit();
@@ -127,13 +121,14 @@ public class GameWon implements Screen {
         else
             exitButtonVariable.setRegion(new TextureRegion(Assets.exitButton));
 
-        font.draw(batch, text, 200, 200);
+        font.draw(batch, text, 500, windowHeight/2 + 25);
 
         batch.end();
 
         stage.act(delta);
         stage.draw();
     }
+
 
     @Override
     public void resize(int width, int height) {
@@ -154,15 +149,7 @@ public class GameWon implements Screen {
     @Override
     public void dispose() {
         Assets.gameWon.dispose();
-        stage.dispose();
         batch.dispose();
-        Assets.playAgainButton.dispose();
-        Assets.playAgainButtonHighlighted.dispose();
-        Assets.exitButton.dispose();
-        Assets.exitButtonHighlighted.dispose();
-        //sound.dispose();
         font.dispose();
-        soundButton.dispose();
-        background.dispose();
     }
 }
