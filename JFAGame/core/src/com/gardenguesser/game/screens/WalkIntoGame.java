@@ -215,13 +215,12 @@ public class WalkIntoGame implements Screen {
 
             if (font != null) {
                 elapsedTime += Gdx.graphics.getDeltaTime();
-                font.getData().setScale(4.0f); // Ajuste o tamanho da fonte conforme necessário
+                font.getData().setScale(4.0f);
 
                 int numCharsToDraw = (int) (elapsedTime / speed);
 
                 numCharsToDraw = Math.min(numCharsToDraw, text.length());
 
-                // Interpolação para obter a cor gradiente
                 Color color = new Color(
                         Interpolation.linear.apply(startColor.r, endColor.r, elapsedTime * speed),
                         Interpolation.linear.apply(startColor.g, endColor.g, elapsedTime * speed),
