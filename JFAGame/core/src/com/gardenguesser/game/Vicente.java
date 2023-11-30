@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 import com.gardenguesser.game.GardenGuesser;
+import com.gardenguesser.game.screens.MainGameScreen;
 import com.gardenguesser.game.screens.WalkIntoGame;
 
 public class Vicente extends Sprite {
@@ -28,6 +29,16 @@ public class Vicente extends Sprite {
         vicenteCostas = new TextureRegion(getTexture(), 511, 262, 120, 184);
         setBounds(posX, posY, 112 / 2, 176 / 2);
         setRegion(vicenteFrente);
+    }
+    public Vicente (MainGameScreen screen) {
+        super(screen.getAtlas().findRegion("vicente"));
+        posX = 870;
+        posY = 50;
+        stateTime = 0;
+        vicenteFrente = new TextureRegion(getTexture(), 8, 15, 112, 176);
+        vicenteCostas = new TextureRegion(getTexture(), 511, 262, 120, 184);
+        setBounds(posX, posY, 112 / 2, 176 / 2);
+        setRegion(vicenteCostas);
     }
         //
     public void andarParaDireita() {

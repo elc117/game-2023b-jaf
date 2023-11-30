@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -22,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.gardenguesser.game.Vicente;
 public class MainGameScreen extends Product implements Screen {
 
     public static float windowWidth = Gdx.graphics.getWidth();
@@ -44,9 +46,8 @@ public class MainGameScreen extends Product implements Screen {
     private float timer;
     private int acertos;
     private int erros;
-
-    private TextureRegionDrawable characterVariable;
-    private ImageButton character;
+    private Vicente vicente;
+    private TextureAtlas atlas;
 
     private boolean areaClicked = false;
 
@@ -61,12 +62,13 @@ public class MainGameScreen extends Product implements Screen {
 
     @Override
     public void show() {
+        atlas = new TextureAtlas("Vicente_Movimentos.pack");
         Assets.loadAssets();
         batch = new SpriteBatch();
         background = Assets.innerArea;
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
-
+        vicente = new Vicente(this);
         erros = 0;
         acertos = 0;
         deltaTime = 0;
@@ -75,20 +77,14 @@ public class MainGameScreen extends Product implements Screen {
 
         sound.loop(0.02f, 1.0f, 0.0f);
 
-        float characterX = windowWidth/2 + Assets.mainCharacterFront.getWidth()/ 2 + 90;
-        float characterY = windowHeight/2 - Assets.mainCharacterFront.getHeight()/2 - 125;
 
-        characterVariable = new TextureRegionDrawable(new TextureRegion(Assets.mainCharacterFront));
-        character = new ImageButton(characterVariable);
 
         font.setColor(Color.WHITE);
         font.getData().setScale(3.0f);
 
         product.image.setPosition(product.imageX - 100, product.imageY);
-        character.setPosition(characterX, characterY);
 
         stage.addActor(product.image);
-        stage.addActor(character);
 
         Gdx.input.setInputProcessor(stage);
     }
@@ -97,25 +93,20 @@ public class MainGameScreen extends Product implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        vicente.setStateTime(delta);
         deltaTime += delta;
         elapsedTime += delta;
-
         if(erros > 5) {
             sound.pause();
             game.setScreen(new GameOver(game));
         }
-
         if(acertos > 20) {
             sound.pause();
             game.setScreen(new GameWon (game));
         }
-
-
         if (deltaTime >= 1) {
             timer -= 1;
             deltaTime = 0;
-
             if (timer <= 0) {
                 timer = 10;
                 stage.getRoot().removeActor(product.image);
@@ -126,11 +117,11 @@ public class MainGameScreen extends Product implements Screen {
                 elapsedTime = 0;
             }
         }
-
-
         batch.begin();
         batch.draw(background, 0, 0);
-
+        TextureRegion currentFrame = new TextureRegion(animacaoVicente());
+        vicente.setRegion(currentFrame);
+        vicente.draw(batch);
         if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
             if(product.answer == 'F') {
@@ -246,6 +237,26 @@ public class MainGameScreen extends Product implements Screen {
         batch.dispose();
         font.dispose();
     }
+    public TextureAtlas getAtlas() {
+        return atlas;
+    }
+    private TextureRegion animacaoVicente() {
+        if(vicente.getPosY() <= 510.0f){
+            vicente.andarParaCima();
+            return vicente.andarCima.getKeyFrame(vicente.getStateTime(), true);
+        }
+        else if (vicente.getPosY() >510.0f) {
+            if(vicente.getPosX()<630.0f)
+            {
+                return vicente.getVicenteCostas();
+            }
+            else {
+                vicente.andarParaEsquerda();
+                return vicente.andarEsquerda.getKeyFrame(vicente.getStateTime(),true);
+            }
 
-
+        }
+        else
+            return vicente.getVicenteCostas();
+    }
 }
