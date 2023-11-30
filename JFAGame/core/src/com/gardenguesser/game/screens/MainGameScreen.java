@@ -32,6 +32,9 @@ public class MainGameScreen extends Product implements Screen {
     public static float windowWidth = Gdx.graphics.getWidth();
     public static float windowHeight = Gdx.graphics.getHeight();
 
+    // test commit
+    // aaaaaaa
+
     private SpriteBatch batch;
     private Texture background;
     private TextureAtlas atlasProf;
@@ -130,7 +133,7 @@ public class MainGameScreen extends Product implements Screen {
         deltaTime += delta;
         elapsedTime += delta;
 
-        if(deltaTime > 16 && secondDialogue == false)
+        if(deltaTime > 5 && secondDialogue == false)
             soundTalking.pause();
 
         if(podeAndar == false && dialogueOne == false) {
@@ -146,18 +149,30 @@ public class MainGameScreen extends Product implements Screen {
             stage.addActor(professorDialogue);
             stage.addActor(animatedText);
             text = "Você terá que classificar diferentes produtos\ndo acervo do Jardim Botânico em \nquatro diferentes categorias:\n 'F' represeta Frutas, 'P' representa plantas, \n'V' representa verduras e  'L' representa legumes. \nEntendido? Vamos começar?";
+            deltaTime = 0;
         }
 
-        if(dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false) {
+        if(dialogueOne == true && Gdx.input.isTouched() && secondDialogue == false && deltaTime >= 7) {
             stage.getRoot().removeActor(animatedText);
             long soundId = soundTalking.play();
-            soundTalking.setPitch(soundId, 1.3f);
+            soundTalking.setPitch(soundId, 1.2f);
             animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
-            animatedText.setGradientColors(Color.BLACK, Color.BLACK); // Defina as cores do gradiente
+            animatedText.setGradientColors(Color.BLACK, Color.BLACK);
             animatedText.setSpeed(0.05f);
             stage.addActor(animatedText);
             secondDialogue = true;
+            deltaTime = 0;
         }
+
+        if(secondDialogue == true && Gdx.input.isTouched() && deltaTime >= 10)
+        {
+            stage.getRoot().removeActor(animatedText);
+            stage.getRoot().removeActor(professorDialogue);
+            podeAndar = true;
+        }
+
+
+
 
         if(startGame == true) {
             if (erros > 5) {
@@ -182,6 +197,7 @@ public class MainGameScreen extends Product implements Screen {
                 }
             }
         }
+
         batch.begin();
         batch.draw(background, 0, 0);
         TextureRegion currentFrame = new TextureRegion(animacaoVicente());
@@ -190,6 +206,7 @@ public class MainGameScreen extends Product implements Screen {
         TextureRegion currentFrameProf = new TextureRegion(prof.lerJornal.getKeyFrame(prof.getStateTime(), true));
         prof.setRegion(currentFrameProf);
         prof.draw(batch);
+
         if(startGame == true) {
 
             if (Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <= 635 && Gdx.input.isTouched() && elapsedTime >= interval) {
@@ -308,7 +325,7 @@ public class MainGameScreen extends Product implements Screen {
 
             if (font != null) {
                 elapsedTime += Gdx.graphics.getDeltaTime();
-                font.getData().setScale(2.5f);
+                font.getData().setScale(3.0f);
 
                 int numCharsToDraw = (int) (elapsedTime / speed);
 
