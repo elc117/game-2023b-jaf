@@ -1,0 +1,12 @@
+
+professor.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+professor
+  rotate: false
+  xy: 1, 1
+  size: 268, 108
+  orig: 268, 108
+  offset: 0, 0
+  index: -1

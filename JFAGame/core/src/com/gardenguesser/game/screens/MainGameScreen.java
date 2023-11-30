@@ -24,6 +24,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.gardenguesser.game.Vicente;
+import com.gardenguesser.game.Professor;
 public class MainGameScreen extends Product implements Screen {
 
     public static float windowWidth = Gdx.graphics.getWidth();
@@ -33,7 +34,7 @@ public class MainGameScreen extends Product implements Screen {
     private Texture background;
     private Game game;
     private Stage stage;
-
+    private Professor prof;
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameplay_song_final.mp3"));
     private Sound rightAnswer = Gdx.audio.newSound(Gdx.files.internal("right_answer.mp3"));
     private Sound wrongAnswer = Gdx.audio.newSound(Gdx.files.internal("wrong_answer.mp3"));
@@ -47,7 +48,7 @@ public class MainGameScreen extends Product implements Screen {
     private int acertos;
     private int erros;
     private Vicente vicente;
-    private TextureAtlas atlas;
+    private TextureAtlas atlas,atlasProf;
 
     private boolean areaClicked = false;
 
@@ -62,6 +63,7 @@ public class MainGameScreen extends Product implements Screen {
 
     @Override
     public void show() {
+        atlasProf = new TextureAtlas("professor.pack");
         atlas = new TextureAtlas("Vicente_Movimentos.pack");
         Assets.loadAssets();
         batch = new SpriteBatch();
@@ -69,12 +71,13 @@ public class MainGameScreen extends Product implements Screen {
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
         vicente = new Vicente(this);
+        prof = new Professor(this);
         erros = 0;
         acertos = 0;
         deltaTime = 0;
         timer = 10;
         elapsedTime = 0f;
-
+        prof.mexerOlhos();
         sound.loop(0.02f, 1.0f, 0.0f);
 
 
@@ -94,6 +97,7 @@ public class MainGameScreen extends Product implements Screen {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         vicente.setStateTime(delta);
+        prof.setStateTime(delta);
         deltaTime += delta;
         elapsedTime += delta;
         if(erros > 5) {
@@ -122,6 +126,9 @@ public class MainGameScreen extends Product implements Screen {
         TextureRegion currentFrame = new TextureRegion(animacaoVicente());
         vicente.setRegion(currentFrame);
         vicente.draw(batch);
+        TextureRegion currentFrameProf = new TextureRegion(prof.lerJornal.getKeyFrame(prof.getStateTime(), true));
+        prof.setRegion(currentFrameProf);
+        prof.draw(batch);
         if(Gdx.input.getX() >= 1120 && Gdx.input.getX() <= 1175 && Gdx.input.getY() >= 550 && Gdx.input.getY() <=  635 && Gdx.input.isTouched() && elapsedTime >= interval)
         {
             if(product.answer == 'F') {
@@ -237,6 +244,9 @@ public class MainGameScreen extends Product implements Screen {
     }
     public TextureAtlas getAtlas() {
         return atlas;
+    }
+    public TextureAtlas getAtlasProf() {
+        return atlasProf;
     }
     private TextureRegion animacaoVicente() {
         if(vicente.getPosY() <= 510.0f){
