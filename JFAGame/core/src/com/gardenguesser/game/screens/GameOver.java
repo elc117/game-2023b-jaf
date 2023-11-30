@@ -36,7 +36,6 @@ public class GameOver implements Screen {
     private Game game;
     private Stage stage;
 
-
     private String text = "Infelizmente você acabou não passando no teste,\ne não conseguirá a vaga como bolsista dessa vez :(";
     private BitmapFont font;
 

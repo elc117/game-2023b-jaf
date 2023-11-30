@@ -53,6 +53,7 @@ public class WalkIntoGame implements Screen {
     private AnimatedText animatedText;
 
     private Sound soundWalking = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+    private Sound talking = Gdx.audio.newSound(Gdx.files.internal("mario.mp3"));
 
     private long soundId;
 
@@ -74,13 +75,16 @@ public class WalkIntoGame implements Screen {
 
         vicente = new Vicente(this);
 
+        long soundId = talking.play();
+        talking.setPitch(soundId, 1.5f);
+
         stage = new Stage(new ScreenViewport());
 
         podeTrocar = false;
 
         animatedText = new AnimatedText(text, 275, Gdx.graphics.getHeight()/2);
-        animatedText.setGradientColors(Color.BLACK, Color.BLACK); // Defina as cores do gradiente
-        animatedText.setSpeed(0.05f); // Defina a velocidade da animação
+        animatedText.setGradientColors(Color.BLACK, Color.BLACK);
+        animatedText.setSpeed(0.05f);
 
         marioDialogueVariable = new TextureRegionDrawable(new TextureRegion(Assets.marioDialogue));
         marioDialogue = new ImageButton(marioDialogueVariable);
@@ -109,6 +113,7 @@ public class WalkIntoGame implements Screen {
 
 
         if(podeAndar == false && Gdx.input.isTouched() && timer <= 0) {
+            talking.pause();
             podeAndar = true;
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(marioDialogue);
@@ -118,6 +123,8 @@ public class WalkIntoGame implements Screen {
 
         if(vicente.getPosX() >= 1110.0f && secondDialogue == false)
         {
+            long soundId = talking.play();
+            talking.setPitch(soundId, 1.5f);
             secondDialogue = true;
             podeAndar = false;
             soundWalking.pause();
@@ -131,6 +138,7 @@ public class WalkIntoGame implements Screen {
 
         if(secondDialogue == true && Gdx.input.isTouched() && timer <= 0)
         {
+            talking.pause();
             podeAndar = true;
             stage.getRoot().removeActor(animatedText);
             stage.getRoot().removeActor(marioDialogue);
