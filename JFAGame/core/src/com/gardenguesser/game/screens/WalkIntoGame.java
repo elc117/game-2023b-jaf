@@ -261,9 +261,6 @@ public class WalkIntoGame implements Screen {
         soundWalking.dispose();
         background.dispose();
     }
-    public String getName() {
-        return "WalkIntoGame";
-    }
     public TextureAtlas getAtlas() {
         return atlas;
     }
