@@ -40,6 +40,7 @@ public class MainGameScreen extends Product implements Screen {
     private TextureAtlas atlasProf;
     private Game game;
     private Stage stage;
+    private TextureRegion currentFrame;
 
 
     private Sound sound = Gdx.audio.newSound(Gdx.files.internal("gameplay_song_final.mp3"));
@@ -60,7 +61,7 @@ public class MainGameScreen extends Product implements Screen {
     private Professor prof;
     private TextureAtlas atlas;
     private boolean areaClicked = false;
-
+    private boolean primeiraAnimacaoConcluida;
     private float elapsedTime;
     private float interval = 1f;
 
@@ -95,7 +96,7 @@ public class MainGameScreen extends Product implements Screen {
         background = Assets.innerArea;
         stage = new Stage(new ScreenViewport());
         font = new BitmapFont();
-
+        primeiraAnimacaoConcluida = false;
         vicente = new Vicente(this);
         prof = new Professor(this);
         prof.mexerOlhos();
@@ -200,7 +201,11 @@ public class MainGameScreen extends Product implements Screen {
 
         batch.begin();
         batch.draw(background, 0, 0);
-        TextureRegion currentFrame = new TextureRegion(animacaoVicente());
+        if(!primeiraAnimacaoConcluida)
+             currentFrame = new TextureRegion(animacaoVicente());
+        if(primeiraAnimacaoConcluida) {
+             currentFrame = new TextureRegion(animacaoVicente2());
+        }
         vicente.setRegion(currentFrame);
         vicente.draw(batch);
         TextureRegion currentFrameProf = new TextureRegion(prof.lerJornal.getKeyFrame(prof.getStateTime(), true));
@@ -379,6 +384,7 @@ public class MainGameScreen extends Product implements Screen {
             if(vicente.getPosX()<630.0f)
             {
                 podeAndar = false;
+                primeiraAnimacaoConcluida = true;
                 return vicente.getVicenteCostas();
             }
             else {
@@ -389,6 +395,32 @@ public class MainGameScreen extends Product implements Screen {
         }
         else
             return vicente.getVicenteCostas();
+    }
+    private TextureRegion animacaoVicente2() {
+        if(vicente.getPosX() <= 870.0f && podeAndar && primeiraAnimacaoConcluida){
+            vicente.andarParaDireita();
+            return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
+        }
+        else if (vicente.getPosX() > 870.0f && podeAndar && primeiraAnimacaoConcluida) {
+            if(vicente.getPosY()> 360.0f && podeAndar && primeiraAnimacaoConcluida) {
+                vicente.andarParaBaixo();
+                return vicente.andarBaixo.getKeyFrame(vicente.getStateTime(), true);
+            }
+            else if(vicente.getPosY() <= 360.0f && podeAndar && primeiraAnimacaoConcluida)
+            {
+                if(vicente.getPosX()<= 1220.0f && podeAndar && primeiraAnimacaoConcluida)
+                {
+                    vicente.andarParaDireita();
+                    return vicente.andarDireita.getKeyFrame(vicente.getStateTime(), true);
+                }
+                else
+                    return vicente.getVicenteFrente();
+            }
+            else
+                return vicente.getVicenteFrente();
+        }
+        else
+            return vicente.getVicenteFrente();
     }
     public TextureAtlas getAtlasProf() {
         return atlasProf;
