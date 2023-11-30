@@ -36,7 +36,6 @@ public class GameWon implements Screen {
     private Game game;
     private Stage stage;
 
-
     private String text = "Parabéns, você teve um desempenho excelente!!\nVocê se saiu muito bem na prova!!\nSendo assim, a vaga como bolsista no Jardim Botânico é toda sua!!! ";
     private BitmapFont font;
 
@@ -48,7 +47,7 @@ public class GameWon implements Screen {
     private TextureRegionDrawable exitButtonHighlightedVariable;
     private ImageButton exitButton;
 
-    //private Sound sound = Gdx.audio.newSound(Gdx.files.internal("footsteps.wav"));
+    private Sound sound = Gdx.audio.newSound(Gdx.files.internal("game_win_sfx.mp3"));
     private Sound soundButton = Gdx.audio.newSound(Gdx.files.internal("button_sound.mp3"));
 
     public GameWon(Game game){
@@ -61,6 +60,8 @@ public class GameWon implements Screen {
         Assets.loadAssets();
 
         batch = new SpriteBatch();
+
+        sound.play();
 
         background = Assets.gameWon;
 
@@ -123,7 +124,6 @@ public class GameWon implements Screen {
         font.draw(batch, text, 500, windowHeight/2 + 25);
 
         batch.end();
-
 
         stage.act(delta);
         stage.draw();

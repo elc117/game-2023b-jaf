@@ -51,7 +51,7 @@ public class MainGameScreen extends Product implements Screen {
     private boolean areaClicked = false;
 
     private float elapsedTime;
-    private float interval = 1f; // intervalo desejado em segundos
+    private float interval = 1f;
 
     public MainGameScreen(Game game){
         super();
@@ -116,16 +116,14 @@ public class MainGameScreen extends Product implements Screen {
             timer -= 1;
             deltaTime = 0;
 
-            // Verifica se o tempo atingiu 15 segundos
             if (timer <= 0) {
-                timer = 10; // Reinicia o temporizador para 15 segundos
+                timer = 10;
                 stage.getRoot().removeActor(product.image);
                 super.gerarImagem();
                 product = new Product();
                 erros++;
                 wrongAnswer.play();
                 elapsedTime = 0;
-                // Adicione aqui qualquer lógica que você queira executar quando o temporizador atingir 15 segundos
             }
         }
 
@@ -145,7 +143,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
@@ -163,7 +160,6 @@ public class MainGameScreen extends Product implements Screen {
             }
             timer = 10;
             stage.getRoot().removeActor(product.image);
-            //product.image.setPosition(-windowWidth * 3, - windowHeight * 3);
             super.gerarImagem();
             product = new Product();
             elapsedTime = 0f;
